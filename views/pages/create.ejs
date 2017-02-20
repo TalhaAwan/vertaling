@@ -1,0 +1,59 @@
+<!-- <form action="/passages/" method="POST">
+  Title:<br>
+  <input type="text" name="title"><br>
+  Statement:<br>
+  <input type="text" name="statement"><br><br>
+  <text-angular ng-model="htmlVariable"></text-angular>
+  <input type="submit" value="Submit">
+</form>
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<? include ../partials/head ?>
+</head>
+
+
+<body class="container">
+
+	<header>
+		<? include ../partials/header ?>
+	</header>
+
+	<main>
+		<div class="jumbotron" ng-app="tarjumaAdmin" ng-controller='tarjumaController'>
+			<h2>Create Passage</h2>
+			<form action="/passages/" method="POST">
+				<h3>Title</h3>
+				<input type="text" name="title"><br>
+				<h3>Statement</h3>
+				<!-- <textarea rows="4" cols="50" name="statement">
+				
+			</textarea> -->
+			<text-angular ng-model="htmlVariable" name="statement"></text-angular>
+			<br>
+			<input type="submit" value="Create">
+		</form>
+
+		<br>
+	</div>
+
+</main>
+
+<footer>
+	<? include ../partials/footer ?>
+</footer>
+
+</body>
+
+</html>
+
+<script>
+	(function() {
+		angular.module('tarjumaAdmin', ['textAngular']).controller('tarjumaController', ['$scope', function ($scope) {
+			console.log("tarjumaAdmin")
+		}]);
+	})();
+</script>

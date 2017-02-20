@@ -1,0 +1,60 @@
+
+
+
+
+
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <? include ../partials/head ?>
+</head>
+
+
+<body class="container">
+
+    <header>
+        <? include ../partials/header ?>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h2>Passage  (<?= passage.slug?>)</h2>
+
+            <div>
+                <h3>
+                    Slug
+                </h3>
+                <span> <?= passage.slug ?></span> <br>
+            </div>
+
+
+            <div>
+                <h3>
+                    Title
+                </h3>
+                <span> <?= passage.title ?></span> <br>
+            </div>
+
+            <div>
+                <h3>
+                    Statement
+                </h3>
+                <span> <?- passage.statement ?></span> <br>
+            </div>
+            <br>
+
+            <div>
+                <a href="/passages/edit/<?= passage._id ?>">edit</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <? include ../partials/footer ?>
+    </footer>
+
+</body>
+
+</html>
