@@ -6,6 +6,7 @@ var gulp   = require('gulp'),
     cleanCSS = require('gulp-clean-css'),
     gutil = require('gulp-util'),
     sourcemaps = require('gulp-sourcemaps');
+    mocha = require('gulp-mocha')
 
 gulp.task('default', [
     'watch',
@@ -15,6 +16,16 @@ gulp.task('default', [
     'build-vendor-js',
     'jshint'
 ]);
+
+
+
+gulp.task('test', function () {
+    return gulp.src(['server/**/*.spec.js'])
+        .pipe(mocha({ reporter: 'spec' }))
+
+});
+
+
 
 gulp.task('build-src-css', function() {
     return gulp.src('client/scss/**/*.scss')

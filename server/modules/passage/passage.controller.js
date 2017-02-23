@@ -1,7 +1,7 @@
 'use strict';
 
 
-const Passage = require ( './passage.model');
+const Passage = require ( './passage.model').model;
 const config = require ( '../../config/environment');
 const Controller = {};
 
@@ -10,9 +10,10 @@ const Controller = {};
  * restriction: 'admin'
  */
  Controller.index = function (req, res) {
+
     Passage.findActive(function(err, passages){
         if(err){
-            console.log(err)
+            res.status(500)
         }
         else{
             res.render('pages/index', {
