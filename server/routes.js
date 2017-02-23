@@ -11,6 +11,7 @@ module.exports = function(app) {
 
 
   app.use('/passages', require('./resource/passage'));
+  app.use('/admin/passages', require('./resource/passage/admin'));
 
 
   app.get('/favicon.ico', function(req, res) {
@@ -22,6 +23,7 @@ module.exports = function(app) {
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
   .get(function(req, res){
+    console.log("from here");
   	res.status(404); 
   });
 

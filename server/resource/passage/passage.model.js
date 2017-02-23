@@ -9,8 +9,7 @@ var PassageSchema = new Schema({
   title: {type: String, required: true},
   slug: {
     type: String,
-    lowercase: true,
-    required: true
+    lowercase: true
   },
   statement: {type: String, required: true},
   createdAt: {type: Date, default: Date.now},
@@ -23,6 +22,7 @@ var PassageSchema = new Schema({
 PassageSchema
 .pre('save', function(next){
   preSave(this);
+  console.log("Coming in pre save")
   next();	
 });
 

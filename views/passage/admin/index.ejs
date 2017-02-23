@@ -3,14 +3,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <? include ../partials/head ?>
+    <? include ../../partials/head ?>
 </head>
 
 
 <body class="container">
 
     <header>
-        <? include ../partials/header ?>
+        <? include ../../partials/admin/header ?>
     </header>
 
     <main>
@@ -35,8 +35,8 @@
                     <td><?= passage.title ?></td>
                     <td><?- passage.statement?></td>
                     <td>
-                        <a href="/passages/show/<?= passage._id ?>">show</a>
-                        <a href="/passages/edit/<?= passage._id ?>">edit</a>
+                        <a href="/admin/passages/show/<?= passage._id ?>">show</a>
+                        <a href="/admin/passages/edit/<?= passage._id ?>">edit</a>
                         <a href="javascript:void(0)" onClick="deletePassage('<?= passage._id ?>')">delete</a>
                     </td>
                 </tr>
@@ -48,7 +48,7 @@
     </main>
 
     <footer>
-        <? include ../partials/footer ?>
+        <? include ../../partials/footer ?>
     </footer>
 
 </body>
@@ -57,7 +57,7 @@
 <script>
     function deletePassage(id){
         var myForm = document.createElement("form");
-        myForm.action='/passages/'+id+'?_method=DELETE';
+        myForm.action='/admin/passages/'+id+'?_method=DELETE';
         myForm.method="POST";
         myForm.submit();
     }

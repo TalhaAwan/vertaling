@@ -10,11 +10,11 @@ const router = new Router();
 
 router.get('/', controller.index);
 router.get('/show/:id', controller.show);
-// router.delete('/:id', controller.destroy);
-// router.put('/:id', controller.update);
-// router.get('/create', controller.getCreateView);
-// router.get('/edit/:id', controller.getEditView);
+router.delete('/:id', controller.destroy);
+router.put('/:id', controller.update);
+router.get('/create', controller.getCreateView);
+router.get('/edit/:id', controller.getEditView);
 router.get('/:id', controller.show);
-// router.post('/', controller.create);
+router.post('/', controller.create);
 
 module.exports = router;

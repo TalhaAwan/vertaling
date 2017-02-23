@@ -1,0 +1,68 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <? include ../partials/head ?>
+</head>
+
+
+<body class="container">
+
+    <header>
+        <? include ../partials/header ?>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h2>Passages</h2>
+            
+            <table>
+                <tr>
+                    <th> Sr No.</th>
+                    <th> Slug </th>
+                    <th> Title</th>
+                    <th> Statement</th>
+
+                    <th> Actions</th>
+                </tr>
+                <? passages.forEach(function(passage, index) { ?>
+
+
+                <tr>
+                    <td><?= (index + 1)?></td>
+                    <td><?= passage.slug?></td>
+                    <td><?= passage.title ?></td>
+                    <td><?- passage.statement?></td>
+                    <td>
+                        <a href="/passages/show/<?= passage._id ?>">show</a>
+                    </td>
+                </tr>
+
+                <? }); ?>
+            </table>
+
+        </div>
+    </main>
+
+    <footer>
+        <? include ../partials/footer ?>
+    </footer>
+
+</body>
+
+
+
+
+<style>
+    table {
+        width: 100%;
+        border: 1px solid black;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 10px;
+    }
+</style>
+</html>

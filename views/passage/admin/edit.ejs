@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<? include ../partials/head ?>
+	<? include ../../partials/head ?>
 </head>
 
 
 <body class="container">
 
 	<header>
-		<? include ../partials/header ?>
+        <? include ../../partials/admin/header ?>
 	</header>
 
 	<main>
 		<div class="jumbotron" ng-app="tarjumaAdmin" ng-controller="tarjumaController" ng-init="init('<?= passage.statement ?>')">
 			<h2>Edit Passage  (<?= passage.slug?>)</h2>
-			<form action="/passages/<?= passage._id ?>?_method=PUT" method="POST">
+			<form action="/admin/passages/<?= passage._id ?>?_method=PUT" method="POST">
 				<h3>Title</h3>
 				<input type="text" name="title" value="<?= passage.title ?>"><br>
 				<h3>Statement</h3>
@@ -28,7 +28,7 @@
 
 			<br>
 			<div>
-				<a href="/passages/show/<?= passage._id ?>">show</a>
+				<a href="/admin/passages/show/<?= passage._id ?>">show</a>
 			</div>
 		</div>
 
@@ -36,7 +36,7 @@
 
 
 	<footer>
-		<? include ../partials/footer ?>
+		<? include ../../partials/footer ?>
 	</footer>
 
 </body>
