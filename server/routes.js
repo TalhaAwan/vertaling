@@ -4,19 +4,19 @@ const path = require('path');
 
 module.exports = function(app) {
   // Insert routes below
-  app.use('/api/users', require('./api/user'));
-  app.use('/auth', require('./auth'));
+  // app.use('/api/users', require('./api/user'));
+  // app.use('/auth', require('./auth'));
 
 
 
 
-  app.use('/passages', require('./modules/passage'));
+  app.use('/passages', require('./resource/passage'));
 
 
   app.get('/favicon.ico', function(req, res) {
   	res.status(404);
   });
-  app.use('/', require('./modules/passage'));
+  app.use('/', require('./resource/passage'));
   
 
   // All undefined asset or api routes should return a 404
