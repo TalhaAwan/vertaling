@@ -19,7 +19,7 @@ describe('Passage Controller', function() {
 			Controller.index(req, res);
 
 			sinon.assert.calledWith(res.render, 
-				'pages/index', {
+				'passage/index', {
 					passages: passages
 				});
 		}));

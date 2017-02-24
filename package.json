@@ -33,7 +33,7 @@
     "slug": "^0.9.1"
   },
   "scripts": {
-    "test": "gulp test",
+    "test": "mocha server/**/*.spec.js",
     "start": "node server"
   },
   "devDependencies": {

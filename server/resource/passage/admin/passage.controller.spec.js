@@ -1,9 +1,9 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var Controller = require('./passage.controller.js');
-var Passage = require('./passage.model.js').model;
+var Passage = require('../passage.model.js').model;
 
-describe('Passage Controller', function() {
+describe('Passage Admin Controller', function() {
 	describe('index', function() {
 		var res = {
 			render: function(){},
@@ -19,7 +19,7 @@ describe('Passage Controller', function() {
 			Controller.index(req, res);
 
 			sinon.assert.calledWith(res.render, 
-				'pages/index', {
+				'passage/admin/index', {
 					passages: passages
 				});
 		}));

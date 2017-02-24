@@ -6,12 +6,12 @@ var preSave = require('./passage.model.js').preSave;
  
 describe('Passage Model', function() {
 	describe('validation', function() {
-		it('should be invalid if any of title, statement or slug are empty', function(done) {
+		it('should be invalid if any of title or statement are empty', function(done) {
 			var p = new Passage();
 			p.validate(function(err) {
 				expect(err.errors.title).to.exist;
 				expect(err.errors.statement).to.exist;
-				expect(err.errors.slug).to.exist;
+			
 				done();
 			});
 		});
@@ -57,7 +57,7 @@ describe('Passage Model', function() {
 
 
 	describe('destroy', function() {
-		it('should findOne, place true in deleted and Date.now in deletedAt and then save the updated object', sinon.test(function() {
+		it('should findOne passage, place true in passage.deleted and Date.now in passage.deletedAt and then save the updated object', sinon.test(function() {
 			var callback = this.spy();
 			var passage = {
 				_id: 1,
