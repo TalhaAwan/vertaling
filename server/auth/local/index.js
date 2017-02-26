@@ -2,7 +2,7 @@
 
 const express = require( 'express')
 const passport = require( 'passport')
-const signToken = require( '../auth.service');
+const signToken = require( '../auth.service').signToken;
 
 const validationSchema = require('../auth.validaton.schema');
 const validator = require('../../utils/request.validator.js');
@@ -18,10 +18,17 @@ router.post('/', validator.body(validationSchema.localSignIn), function(req, res
     if(!user) {
       return res.status(404).json({message: 'Something went wrong, please try again.'});
     }
+    req.login(user, function(err) {
+      if (err) {
+        return res.status(500).json(error);
+      } else {
+        var token = signToken(user._id, user.role);
+        return res.json({token : token });
+      }
+    });
 
-    var token = signToken(user._id, user.role);
-    res.json({token : token });
+
   })(req, res, next);
 });
 
-module.exports = router;
+  module.exports = router;

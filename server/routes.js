@@ -5,12 +5,13 @@ const path = require('path');
 module.exports = function(app) {
   // Insert routes below
   // app.use('/api/users', require('./api/user'));
-  // app.use('/auth', require('./auth'));
+  app.use('/auth', require('./auth'));
 
 
 
 
   app.use('/passages', require('./resource/passage'));
+  app.use('/users', require('./resource/user'));
   app.use('/admin/passages', require('./resource/passage/admin'));
 
 
@@ -24,7 +25,7 @@ module.exports = function(app) {
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
   .get(function(req, res){
     console.log("from here");
-  	res.status(404); 
+    res.status(404); 
   });
 
 

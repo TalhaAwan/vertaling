@@ -45,7 +45,7 @@ module.exports = function(app) {
     app.use(methodOverride());
     app.use(methodOverride('_method'))
     app.use(cookieParser());
-    app.use(passport.initialize());
+
 
 
     // Persist sessions with MongoStore / sequelizeStore
@@ -60,6 +60,9 @@ module.exports = function(app) {
             db: config.mongo.uri
         })
     }));
+
+    app.use(passport.initialize());
+    app.use(passport.session())
 
     /**
      * Lusca - express server security
