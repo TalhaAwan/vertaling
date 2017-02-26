@@ -4,11 +4,11 @@ const Router = require('express').Router;
 const controller = require('./passage.controller');
 // const validationSchema = require('./user.validation.schema');
 // const validator = require('../../utils/request.validator.js');
-// const auth = require('../../auth/auth.service');
+const auth = require('../../../auth/auth.service');
 
 const router = new Router();
 
-router.get('/', controller.index);
+router.get('/', auth.hasRole('admin'), controller.index);
 router.get('/show/:id', controller.show);
 router.delete('/:id', controller.destroy);
 router.put('/:id', controller.update);
