@@ -1,0 +1,46 @@
+
+
+
+
+
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <? include ../partials/head ?>
+</head>
+
+
+<body class="container">
+
+    <header>
+        <? include ../partials/header ?>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h2> User Sign Up</h2>
+
+            <form action="/users/" method="POST">
+                <h3>Email</h3>
+                <input type="text" name="email"><br>
+                
+                <h3>Password</h3>
+                <input type="password" name="password"><br>
+
+                <br>
+                <input type="submit" value="Sign Up">
+            </form>
+
+
+        </div>
+    </main>
+
+    <footer>
+        <? include ../partials/footer ?>
+    </footer>
+
+</body>
+
+</html>

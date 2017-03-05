@@ -14,12 +14,12 @@ var validateJwt = expressJwt({
  * Otherwise returns 403
  */
 
-function isAuthenticated(){
+ function isAuthenticated(){
 
 
-    return compose()
+  return compose()
     // Validate jwt
-        .use(function(req, res, next) {
+    .use(function(req, res, next) {
             // // allow access_token to be passed through query parameter as well
             // if(req.query && req.query.hasOwnProperty('access_token')) {
             //     req.headers.authorization = 'Bearer '+req.query.access_token;
@@ -29,15 +29,18 @@ function isAuthenticated(){
             //     req.headers.authorization = 'Bearer '+req.cookies.token;
             // }
             // validateJwt(req, res, next);
-            console.log(req.user);
+            console.log("In Authentication")
             if(req.user){
-              return next(req.user);
+              next();
+              return null;
             }
             else{
-              return res.status(401).end();
+              // return res.status(401).end();
+              return res.redirect('/users/signin');
+
             }
 
-        })
+          })
         // Attach user to request
         // .use(function(req, res, next) {
         //     User.findById(req.user._id).exec()
@@ -53,32 +56,35 @@ function isAuthenticated(){
         //             next(err)
         //         });
         // });
-}
-module.exports.isAuthenticated = isAuthenticated;
+      }
+      module.exports.isAuthenticated = isAuthenticated;
 
 /**
  * Checks if the user role meets the minimum requirements of the route
  */
-module.exports.hasRole = function(roleRequired) {
+ module.exports.hasRole = function(roleRequired) {
   if(!roleRequired) {
     throw new Error('Required role needs to be set');
   }
 
   return compose()
-    .use(isAuthenticated())
-    .use(function meetsRequirements(req, res, next) {
-      if(config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
-        return next();
-      } else {
-        return res.status(403).send('Forbidden');
-      }
-    });
+  .use(isAuthenticated())
+  .use(function meetsRequirements(req, res, next) {
+
+    console.log("In Authorization")
+    if(config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
+      return next();
+    } else {
+      // return res.status(403).send('Forbidden');
+      return res.redirect('/users/signin');
+    }
+  });
 }
 
 /**
  * Returns a jwt token signed by the app secret
  */
-module.exports.signToken = function(id, role) {
+ module.exports.signToken = function(id, role) {
   return jwt.sign({ _id: id, role: role }, config.secrets.session, {
     expiresIn: 60 * 60 * 5
   });
@@ -87,7 +93,7 @@ module.exports.signToken = function(id, role) {
 /**
  * Set token cookie directly for oAuth strategies
  */
-module.exports.setTokenCookie = function(req, res) {
+ module.exports.setTokenCookie = function(req, res) {
   if(!req.user) {
     return res.status(404).send('It looks like you aren\'t logged in, please try again.');
   }

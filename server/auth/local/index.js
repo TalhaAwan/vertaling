@@ -22,13 +22,26 @@ router.post('/', validator.body(validationSchema.localSignIn), function(req, res
       if (err) {
         return res.status(500).json(error);
       } else {
-        var token = signToken(user._id, user.role);
-        return res.json({token : token });
-      }
-    });
+        // var token = signToken(user._id, user.role);
+        // return res.json({token : token });
+        if(user.role == "admin"){
+         res.redirect('/admin/passages');
+       }
+       else{
+         res.redirect('/passages');
+       }
+     }
+   });
 
 
   })(req, res, next);
 });
 
-  module.exports = router;
+
+
+router.get('/signout', function(req, res){
+  req.logout();
+  res.redirect('/users/signin');
+})
+
+module.exports = router;

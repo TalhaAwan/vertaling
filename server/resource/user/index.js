@@ -13,6 +13,9 @@ const router = new Router();
 router.get('/me', controller.me);
 // router.put('/:id/password', auth.isAuthenticated(), validator.body(validationSchema.changePassword), controller.changePassword);
 // router.get('/:id', auth.isAuthenticated(), controller.show);
-router.post('/', controller.create);
+
+router.get('/signup', controller.getSignupView);
+router.get('/signin', controller.getSigninView);
+router.post('/', controller.signup);
 
 module.exports = router;

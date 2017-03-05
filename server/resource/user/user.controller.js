@@ -39,7 +39,7 @@ Controller.index = function (req, res) {
 /**
  * Creates a new user
  */
-Controller.create = function (req, res) {
+Controller.signup = function (req, res) {
     var newUser = new User(req.body);
     newUser.provider = 'local';
     newUser.role = 'user';
@@ -53,6 +53,16 @@ Controller.create = function (req, res) {
         .catch(validationError(res));
 };
 
+
+
+Controller.getSignupView = function (req, res) {
+ res.render('user/signup');
+};
+
+
+Controller.getSigninView = function (req, res) {
+ res.render('user/signin');
+};
 
 
 /**

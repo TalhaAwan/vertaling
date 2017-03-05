@@ -11,6 +11,7 @@ const Controller = {};
  */
  Controller.index = function (req, res) {
 
+console.log("here in passage")
     Passage.findActive(function(err, passages){
         if(err){
             res.status(500)

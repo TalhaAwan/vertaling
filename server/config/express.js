@@ -64,6 +64,12 @@ module.exports = function(app) {
     app.use(passport.initialize());
     app.use(passport.session())
 
+
+    app.use(function (req, res, next) {
+      res.locals.login = req.isAuthenticated();
+      console.log("in use")
+      next();
+    });
     /**
      * Lusca - express server security
      * https://github.com/krakenjs/lusca
