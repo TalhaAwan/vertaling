@@ -29,7 +29,8 @@ var validateJwt = expressJwt({
             //     req.headers.authorization = 'Bearer '+req.cookies.token;
             // }
             // validateJwt(req, res, next);
-            console.log("In Authentication")
+            console.log("In Authentication");
+            console.log(req.user);
             if(req.user){
               next();
               return null;

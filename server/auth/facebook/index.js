@@ -7,14 +7,15 @@ const setTokenCookie = require ( '../auth.service').setTokenCookie
 var router = express.Router();
 
 router
-  .get('/', passport.authenticate('facebook', {
-    scope: ['email', 'user_about_me'],
-    failureRedirect: '/signup',
-    session: false
-  }))
-  .get('/callback', passport.authenticate('facebook', {
-    failureRedirect: '/signup',
-    session: false
-  }), setTokenCookie);
+.get('/', passport.authenticate('facebook', {
+	scope: ['email', 'user_about_me'],
+	failureRedirect: '/users/signup',
+	session: true
+}))
+.get('/callback', passport.authenticate('facebook', {
+	failureRedirect: '/users/signup',
+	successRedirect : '/',
+	session: true
+}));
 
 module.exports = router;
