@@ -1,8 +1,8 @@
 'use strict';
 
 
-const Passage = require ( './passage.model').model;
-const Attempt = require ( '../attempt/attempt.model').model;
+const Passage = require ( '../passage/passage.model').model;
+const Attempt = require ( './attempt.model').model;
 const config = require ( '../../config/environment');
 const Controller = {};
 
@@ -12,7 +12,6 @@ const Controller = {};
  */
  Controller.index = function (req, res) {
 
-    console.log("here in passage")
     Passage.findActive(function(err, passages){
         if(err){
             res.status(500)
@@ -49,12 +48,24 @@ Controller.getEditView = function(req, res){
  * Creates a new user
  */
  Controller.create = function (req, res) {
-    Passage.create(req.body, function(err, result){
+
+    // console.log("In attempt create ", "passage id: ", req.params.id);
+    // console.log("translation", req.body.translation);
+    // console.log(req.get('referer'))
+
+
+    var attempt = {
+        translation: req.body.translation,
+        passage: req.params.id,
+        user: req.user._id
+    };
+
+    Attempt.create(attempt, function(err, result){
         if(err){
             res.status(500).json(err);
         }
         else{
-            res.redirect('/passages');
+            res.redirect(req.get('referer'));
         }
     })
 };
@@ -80,19 +91,10 @@ Controller.update = function (req, res) {
             res.status(500).json(err);
         }
         else{
-            Attempt.find({passage: req.params.id}, function(err, attempts){
-                if(err){
-                    res.status(500).json(err);
-                }
-                else{
-                   res.render('passage/show', {
-                    passage: passage,
-                    attempts: attempts
-                })
-               }
-           }).populate('user')
-
-
+            console.log(passage)
+            res.render('passage/show', {
+                passage: passage
+            })
         }
     })
 };

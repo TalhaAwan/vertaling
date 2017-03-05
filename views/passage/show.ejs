@@ -45,6 +45,26 @@
             </div>
             <br>
 
+
+            <? attempts.forEach(function(attempt, index) { ?>
+            <div>
+                <span> <?= (index + 1) ?></span> <br>
+                <span> By <?= attempt.user.email ?></span> <br>
+                <span> <?= attempt.translation ?></span> <br>
+                <span> At <?= attempt.updatedAt ?></span> <br>
+
+            </div>
+            <? }); ?>
+
+            <h2> Attempt </h2>
+            <form action="/passages/<?= passage.id ?>/attempts" method="POST">
+                <h3>Translation</h3>
+                <input type="text" name="translation"><br>
+
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+
         </div>
     </main>
 
