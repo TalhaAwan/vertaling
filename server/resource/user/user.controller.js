@@ -2,7 +2,7 @@
 
 const jwt = require ( 'jsonwebtoken');
 
-const User = require ( '../../api/user/user.model');
+const User = require ( './user.model');
 const config = require ( '../../config/environment');
 const Controller = {};
 
@@ -27,11 +27,10 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
  Controller.index = function (req, res) {
-    return User.find({}, '-salt -password').exec()
-    .then(function (users) {
+    return User.find({}, '-salt -password').exec(function (err, users) {
         res.status(200).json(users);
     })
-    .catch(handleError(res));
+
 };
 
 
@@ -43,36 +42,39 @@ function handleError(res, statusCode) {
     var newUser = new User(req.body);
     newUser.provider = 'local';
     newUser.role = 'user';
-    newUser.save()
-    .then(function (user) {
-        
-        req.login(user, function(err) {
-          if (err) {
-            return res.status(500).json(error);
-        } else {
+    newUser.save(function (err, user) {
+        if(err){
+
+        }
+        else{
+            req.login(user, function(err) {
+              if (err) {
+                return res.status(500).json(error);
+            } else {
         // var token = signToken(user._id, user.role);
         // return res.json({token : token });
         if(user.role == "admin"){
-           res.redirect('/admin/passages');
-       }
-       else{
-           res.redirect('/passages');
-       }
-   }
+         res.redirect('/admin/passages');
+     }
+     else{
+         res.redirect('/passages');
+     }
+ }
 });
+        }
+        
     })
-    .catch(validationError(res));
 };
 
 
 
 Controller.getSignupView = function (req, res) {
-   res.render('user/signup');
+ res.render('user/signup');
 };
 
 
 Controller.getSigninView = function (req, res) {
-   res.render('user/signin');
+ res.render('user/signin');
 };
 
 
@@ -82,16 +84,15 @@ Controller.getSigninView = function (req, res) {
  Controller.show = function (req, res, next) {
     var userId = req.params.id;
 
-    return User.findById(userId).exec()
-    .then(function (user) {
+    return User.findById(userId).exec(function (err, user) {
         if (!user) {
             return res.status(404).end();
         }
-        res.json(user.profile);
+        else{
+            res.json(user.profile);
+        }
+
     })
-    .catch(function (err) {
-        next(err)
-    });
 };
 
 
@@ -101,11 +102,11 @@ Controller.getSigninView = function (req, res) {
  * restriction: 'admin'
  */
  Controller.destroy = function (req, res) {
-    return User.findByIdAndRemove(req.params.id).exec()
-    .then(function () {
+    return User.findByIdAndRemove(req.params.id)
+    .exec(function () {
         res.status(204).end();
     })
-    .catch(handleError(res));
+
 };
 
 
@@ -118,19 +119,22 @@ Controller.getSigninView = function (req, res) {
     var oldPass = String(req.body.oldPassword);
     var newPass = String(req.body.newPassword);
 
-    return User.findById(userId).exec()
-    .then(function (user) {
+    return User.findById(userId).exec(function (user) {
         if (user.authenticate(oldPass)) {
             user.password = newPass;
-            return user.save()
-            .then(function () {
-                res.status(204).end();
+            return user.save(function (err) {
+                if(err){
+
+                }
+                else{
+                    res.status(204).end();
+                }
+
             })
-            .catch(validationError(res));
         } else {
             return res.status(403).end();
         }
-    });
+    })
 };
 
 

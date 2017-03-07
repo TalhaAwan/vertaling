@@ -4,14 +4,17 @@ const LocalStrategy = require( 'passport-local').Strategy
 function localAuthenticate(User, email, password, done) {
   User.findOne({
     email: email.toLowerCase()
-  }).exec()
-  .then(function(user) {
-    if(!user) {
+  }).exec(function(err, user) {
+    if(err){
+      return done(err);
+    }
+    else if(!user) {
       return done(null, false, {
         message: 'This email is not registered.'
       });
     }
-    user.authenticate(password, function(authError, authenticated) {
+    else{
+     user.authenticate(password, function(authError, authenticated) {
       if(authError) {
         return done(authError);
       }
@@ -21,10 +24,10 @@ function localAuthenticate(User, email, password, done) {
         return done(null, user);
       }
     });
-  })
-  .catch(function(err){
-    done(err)
-  });
+   }
+   
+ })
+  
 }
 
 module.exports.setup = function (User/*, config*/) {

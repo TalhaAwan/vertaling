@@ -3,7 +3,7 @@ const config = require( '../config/environment')
 const jwt = require( 'jsonwebtoken')
 const expressJwt = require( 'express-jwt')
 const compose = require( 'composable-middleware')
-const User = require( '../api/user/user.model')
+const User = require( '../resource/user/user.model')
 
 var validateJwt = expressJwt({
   secret: config.secrets.session

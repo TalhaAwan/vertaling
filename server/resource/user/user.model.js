@@ -44,23 +44,23 @@ function isEmailRequired () {
 
 // Public profile information
 UserSchema
-    .virtual('profile')
-    .get(function() {
-        return {
-            name: this.name,
-            role: this.role
-        };
-    });
+.virtual('profile')
+.get(function() {
+    return {
+        name: this.name,
+        role: this.role
+    };
+});
 
 // Non-sensitive info we'll be putting in the token
 UserSchema
-    .virtual('token')
-    .get(function() {
-        return {
-            _id: this._id,
-            role: this.role
-        };
-    });
+.virtual('token')
+.get(function() {
+    return {
+        _id: this._id,
+        role: this.role
+    };
+});
 
 /**
  * Validations
@@ -68,47 +68,52 @@ UserSchema
 
 // Validate empty email
 UserSchema
-    .path('email')
-    .validate(function(email) {
-        if(authTypes.indexOf(this.provider) !== -1) {
-            return true;
-        }
-        return email.length;
-    }, 'Email cannot be blank');
+.path('email')
+.validate(function(email) {
+    if(authTypes.indexOf(this.provider) !== -1) {
+        return true;
+    }
+    return email.length;
+}, 'Email cannot be blank');
 
 // Validate empty password
 UserSchema
-    .path('password')
-    .validate(function(password) {
-        if(authTypes.indexOf(this.provider) !== -1) {
-            return true;
-        }
-        return password.length;
-    }, 'Password cannot be blank');
+.path('password')
+.validate(function(password) {
+    if(authTypes.indexOf(this.provider) !== -1) {
+        return true;
+    }
+    return password.length;
+}, 'Password cannot be blank');
 
 // Validate email is not taken
 UserSchema
-    .path('email')
-    .validate(function(value, respond) {
-        const self = this;
-        if(authTypes.indexOf(self.provider) !== -1) {
+.path('email')
+.validate(function(value, respond) {
+    const self = this;
+    if(authTypes.indexOf(self.provider) !== -1) {
+        return respond(true);
+    }
+
+    return self.constructor.findOne({ email: value })
+    .exec(function(err, user){
+        if(err){
+
+        }
+
+        else if(user) {
+            if(self.id === user.id) {
+                return respond(true);
+            }
+            return respond(false);
+        }
+        else{
             return respond(true);
         }
 
-        return self.constructor.findOne({ email: value }).exec()
-                .then(function(user){
-                if(user) {
-                    if(self.id === user.id) {
-                        return respond(true);
-                    }
-                    return respond(false);
-                }
-                return respond(true);
     })
-        .catch(function(err) {
-            throw err;
-        });
-    }, 'The specified email address is already in use.');
+
+}, 'The specified email address is already in use.');
 
 var validatePresenceOf = function(value) {
     return value && value.length;
@@ -117,9 +122,9 @@ var validatePresenceOf = function(value) {
 /**
  * Pre-save hook
  */
-UserSchema
-    .pre('save', function(next) {
-        const self = this;
+ UserSchema
+ .pre('save', function(next) {
+    const self = this;
         // Handle new/update passwords
         if(!self.isModified('password')) {
             return next();
@@ -139,20 +144,20 @@ UserSchema
                 return next(saltErr);
             }
             self.salt = salt;
-        self.encryptPassword(self.password, function (encryptErr, hashedPassword) {
-            if(encryptErr) {
-                return next(encryptErr);
-            }
-            self.password = hashedPassword;
-        return next();
-    });
-    });
+            self.encryptPassword(self.password, function (encryptErr, hashedPassword) {
+                if(encryptErr) {
+                    return next(encryptErr);
+                }
+                self.password = hashedPassword;
+                return next();
+            });
+        });
     });
 
 /**
  * Methods
  */
-UserSchema.methods = {
+ UserSchema.methods = {
     /**
      * Authenticate - check if the passwords are the same
      *
@@ -161,7 +166,7 @@ UserSchema.methods = {
      * @return {Boolean}
      * @api public
      */
-    authenticate : function (password, callback) {
+     authenticate : function (password, callback) {
         const self = this;
         if(!callback) {
             return self.password === self.encryptPassword(password);
@@ -173,11 +178,11 @@ UserSchema.methods = {
             }
 
             if(self.password === pwdGen) {
-            return callback(null, true);
-        } else {
-            return callback(null, false);
-        }
-    });
+                return callback(null, true);
+            } else {
+                return callback(null, false);
+            }
+        });
     },
 
     /**
@@ -188,7 +193,7 @@ UserSchema.methods = {
      * @return {String}
      * @api public
      */
-    makeSalt: function(byteSize, callback) {
+     makeSalt: function(byteSize, callback) {
         var defaultByteSize = 16;
 
         if(typeof arguments[0] === 'function') {
@@ -205,12 +210,12 @@ UserSchema.methods = {
         }
 
         return crypto.randomBytes(byteSize, function (err, salt) {
-                if(err) {
-                    return callback(err);
-                } else {
-                    return callback(null, salt.toString('base64'));
-    }
-    });
+            if(err) {
+                return callback(err);
+            } else {
+                return callback(null, salt.toString('base64'));
+            }
+        });
     },
 
     /**
@@ -221,7 +226,7 @@ UserSchema.methods = {
      * @return {String}
      * @api public
      */
-    encryptPassword: function(password, callback) {
+     encryptPassword: function(password, callback) {
         const self = this;
         if(!password || !self.salt) {
             if(!callback) {
@@ -237,16 +242,16 @@ UserSchema.methods = {
 
         if(!callback) {
             return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
-                .toString('base64');
+            .toString('base64');
         }
 
         return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, function(err, key){
-                if(err) {
-                    return callback(err);
-                } else {
-                    return callback(null, key.toString('base64'));
-    }
-    });
+            if(err) {
+                return callback(err);
+            } else {
+                return callback(null, key.toString('base64'));
+            }
+        });
     }
 };
 

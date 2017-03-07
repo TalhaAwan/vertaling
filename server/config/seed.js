@@ -4,6 +4,6 @@
  */
 
 'use strict';
-const User = require ('../api/user/user.model');
+const User = require ('../resource/user/user.model');
 
 
