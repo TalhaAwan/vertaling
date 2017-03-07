@@ -26,20 +26,11 @@ var MongoStore = connectMongo(session);
 
 module.exports = function(app) {
     var env = app.get('env');
-
-
-    // app.set('appPath', path.join(config.root, 'client'));
-    // app.set('distPath', path.join(config.root, 'dist'));
-    // app.use(express.static(app.get('appPath')));
-    // app.use(express.static(app.get('distPath')));
     app.use( express.static( "public" ) );
     app.use(morgan('dev'));
 
-    // app.set('views', config.root +'/server/views');
-    // app.engine('html', require('ejs').renderFile);
     ejs.delimiter = '?';
     app.set('view engine', 'ejs');
-    // app.use(shrinkRay());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(expressValidator());

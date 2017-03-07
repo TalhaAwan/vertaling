@@ -18,45 +18,16 @@ var validateJwt = expressJwt({
 
 
   return compose()
-    // Validate jwt
     .use(function(req, res, next) {
-            // // allow access_token to be passed through query parameter as well
-            // if(req.query && req.query.hasOwnProperty('access_token')) {
-            //     req.headers.authorization = 'Bearer '+req.query.access_token;
-            // }
-            // // IE11 forgets to set Authorization header sometimes. Pull from cookie instead.
-            // if(req.query && typeof req.headers.authorization === 'undefined') {
-            //     req.headers.authorization = 'Bearer '+req.cookies.token;
-            // }
-            // validateJwt(req, res, next);
-            console.log("In Authentication");
-            console.log(req.user);
             if(req.user){
               next();
               return null;
             }
             else{
-              // return res.status(401).end();
               return res.redirect('/users/signin');
-
             }
-
           })
-        // Attach user to request
-        // .use(function(req, res, next) {
-        //     User.findById(req.user._id).exec()
-        //         .then(function(user) {
-        //             if(!user) {
-        //                 return res.status(401).end();
-        //             }
-        //             req.user = user;
-        //             next();
-        //             return null;
-        //         })
-        //         .catch(function(err){
-        //             next(err)
-        //         });
-        // });
+      
       }
       module.exports.isAuthenticated = isAuthenticated;
 
@@ -76,7 +47,6 @@ var validateJwt = expressJwt({
     if(config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
       return next();
     } else {
-      // return res.status(403).send('Forbidden');
       return res.redirect('/users/signin');
     }
   });

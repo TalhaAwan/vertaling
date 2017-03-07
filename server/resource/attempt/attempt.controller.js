@@ -48,12 +48,6 @@ Controller.getEditView = function(req, res){
  * Creates a new user
  */
  Controller.create = function (req, res) {
-
-    // console.log("In attempt create ", "passage id: ", req.params.id);
-    // console.log("translation", req.body.translation);
-    // console.log(req.get('referer'))
-
-
     var attempt = {
         translation: req.body.translation,
         passage: req.params.id,
