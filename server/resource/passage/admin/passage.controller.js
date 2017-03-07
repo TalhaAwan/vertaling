@@ -17,7 +17,9 @@ const Controller = {};
         }
         else{
             res.render('passage/admin/index', {
-                passages: passages
+                passages: passages,
+                errorMessage: req.flash('createErrorMessage'),
+                successMessage: req.flash('createSuccessMessage')
             });
 
         }
@@ -31,34 +33,37 @@ Controller.getCreateView = function(req, res){
 
 
 Controller.getEditView = function(req, res){
-     Passage.findOne({_id: req.params.id}, function(err, passage){
-        if(err){
-            console.log(err)
-        }
-        else{
-            res.render('passage/admin/edit', {
-                passage: passage
-            });
-        }
-    })
+ Passage.findOne({_id: req.params.id}, function(err, passage){
+    if(err){
+        console.log(err)
+    }
+    else{
+        res.render('passage/admin/edit', {
+            passage: passage
+        });
+    }
+})
 }
 
 /**
  * Creates a new user
  */
  Controller.create = function (req, res) {
+
     Passage.create(req.body, function(err, result){
         if(err){
-            console.log(err);
+            req.flash("createErrorMessage", "Passage Create Error" + JSON.stringify(err));
+            res.redirect('/admin/passages');
         }
         else{
+            req.flash("createSuccessMessage", "Passage Created Successfully");
             res.redirect('/admin/passages');
         }
     })
 };
 
 
- Controller.update = function (req, res) {
+Controller.update = function (req, res) {
     Passage.findOneAndUpdate({_id: req.params.id}, req.body, function(err, result){
         if(err){
             console.log(err);
@@ -73,7 +78,7 @@ Controller.getEditView = function(req, res){
  * Get a single user
  */
  Controller.show = function (req, res) {
-    Passage.findOne({_id: req.params.id}, function(err, passage){
+    Passage.findOne({slug: req.params.slug}, function(err, passage){
         if(err){
             console.log(err)
         }
@@ -93,9 +98,10 @@ Controller.getEditView = function(req, res){
  * restriction: 'admin'
  */
  Controller.destroy = function (req, res) {
+    console.log("in destroy")
     Passage.destroy(req.params.id, function(err){
         if(err){
-
+            console.log(err)
         }
         else{
             res.redirect("/admin/passages")

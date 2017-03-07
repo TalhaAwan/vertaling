@@ -21,6 +21,7 @@ const passport  =   require( 'passport');
 const session =   require( 'express-session');
 const connectMongo =   require( 'connect-mongo');
 const mongoose =   require( 'mongoose');
+const flash    = require('connect-flash');
 var MongoStore = connectMongo(session);
 
 module.exports = function(app) {
@@ -62,12 +63,12 @@ module.exports = function(app) {
     }));
 
     app.use(passport.initialize());
-    app.use(passport.session())
+    app.use(passport.session());
+    app.use(flash());
 
 
     app.use(function (req, res, next) {
       res.locals.login = req.isAuthenticated();
-      console.log("in use")
       next();
     });
     /**

@@ -9,7 +9,8 @@ var PassageSchema = new Schema({
   title: {type: String, required: true},
   slug: {
     type: String,
-    lowercase: true
+    lowercase: true,
+    index: {unique: true}
   },
   statement: {type: String, required: true},
   createdAt: {type: Date, default: Date.now},
@@ -31,6 +32,8 @@ PassageSchema
   preSave(this._update);
   next();    
 });
+
+
 
 
 PassageSchema.statics = {

@@ -98,7 +98,7 @@ UserSchema
     return self.constructor.findOne({ email: value })
     .exec(function(err, user){
         if(err){
-
+            throw err;
         }
 
         else if(user) {

@@ -14,6 +14,12 @@
     </header>
 
     <main>
+        <div class="statusMessage" style="color: red">
+            <?= errorMessage ?>
+        </div>
+        <div class="statusMessage" style="color: green">
+            <?= successMessage ?>
+        </div>
         <div class="jumbotron">
             <h2>Passages</h2>
             
@@ -35,7 +41,7 @@
                     <td><?= passage.title ?></td>
                     <td><?- passage.statement?></td>
                     <td>
-                        <a href="/admin/passages/show/<?= passage._id ?>">show</a>
+                        <a href="/admin/passages/<?= passage.slug ?>">show</a>
                         <a href="/admin/passages/edit/<?= passage._id ?>">edit</a>
                         <a href="javascript:void(0)" onClick="deletePassage('<?= passage._id ?>')">delete</a>
                     </td>
@@ -61,6 +67,13 @@
         myForm.method="POST";
         myForm.submit();
     }
+
+    $(document).ready(function(){
+        setTimeout(function(){
+            $(".statusMessage").hide("slow")
+        }, 5000)
+
+    })
 
 </script>
 

@@ -75,7 +75,7 @@ Controller.update = function (req, res) {
  * Get a single user
  */
  Controller.show = function (req, res) {
-    Passage.findOne({_id: req.params.id}, function(err, passage){
+    Passage.findOne({slug: req.params.slug}, function(err, passage){
         if(err){
             res.status(500).json(err);
         }
