@@ -26,12 +26,12 @@ function handleError(res, statusCode) {
  * Get list of users
  * restriction: 'admin'
  */
-Controller.index = function (req, res) {
+ Controller.index = function (req, res) {
     return User.find({}, '-salt -password').exec()
-        .then(function (users) {
-            res.status(200).json(users);
-        })
-        .catch(handleError(res));
+    .then(function (users) {
+        res.status(200).json(users);
+    })
+    .catch(handleError(res));
 };
 
 
@@ -39,48 +39,59 @@ Controller.index = function (req, res) {
 /**
  * Creates a new user
  */
-Controller.signup = function (req, res) {
+ Controller.signup = function (req, res) {
     var newUser = new User(req.body);
     newUser.provider = 'local';
     newUser.role = 'user';
     newUser.save()
-        .then(function (user) {
-            var token = jwt.sign({_id: user._id}, config.secrets.session, {
-                expiresIn: 60 * 60 * 5
-            });
-            res.json({token: token});
-        })
-        .catch(validationError(res));
+    .then(function (user) {
+        
+        req.login(user, function(err) {
+          if (err) {
+            return res.status(500).json(error);
+        } else {
+        // var token = signToken(user._id, user.role);
+        // return res.json({token : token });
+        if(user.role == "admin"){
+           res.redirect('/admin/passages');
+       }
+       else{
+           res.redirect('/passages');
+       }
+   }
+});
+    })
+    .catch(validationError(res));
 };
 
 
 
 Controller.getSignupView = function (req, res) {
- res.render('user/signup');
+   res.render('user/signup');
 };
 
 
 Controller.getSigninView = function (req, res) {
- res.render('user/signin');
+   res.render('user/signin');
 };
 
 
 /**
  * Get a single user
  */
-Controller.show = function (req, res, next) {
+ Controller.show = function (req, res, next) {
     var userId = req.params.id;
 
     return User.findById(userId).exec()
-        .then(function (user) {
-            if (!user) {
-                return res.status(404).end();
-            }
-            res.json(user.profile);
-        })
-        .catch(function (err) {
-            next(err)
-        });
+    .then(function (user) {
+        if (!user) {
+            return res.status(404).end();
+        }
+        res.json(user.profile);
+    })
+    .catch(function (err) {
+        next(err)
+    });
 };
 
 
@@ -89,12 +100,12 @@ Controller.show = function (req, res, next) {
  * Deletes a user
  * restriction: 'admin'
  */
-Controller.destroy = function (req, res) {
+ Controller.destroy = function (req, res) {
     return User.findByIdAndRemove(req.params.id).exec()
-        .then(function () {
-            res.status(204).end();
-        })
-        .catch(handleError(res));
+    .then(function () {
+        res.status(204).end();
+    })
+    .catch(handleError(res));
 };
 
 
@@ -102,24 +113,24 @@ Controller.destroy = function (req, res) {
 /**
  * Change a users password
  */
-Controller.changePassword = function (req, res) {
+ Controller.changePassword = function (req, res) {
     var userId = req.user._id;
     var oldPass = String(req.body.oldPassword);
     var newPass = String(req.body.newPassword);
 
     return User.findById(userId).exec()
-        .then(function (user) {
-            if (user.authenticate(oldPass)) {
-                user.password = newPass;
-                return user.save()
-                    .then(function () {
-                        res.status(204).end();
-                    })
-                    .catch(validationError(res));
-            } else {
-                return res.status(403).end();
-            }
-        });
+    .then(function (user) {
+        if (user.authenticate(oldPass)) {
+            user.password = newPass;
+            return user.save()
+            .then(function () {
+                res.status(204).end();
+            })
+            .catch(validationError(res));
+        } else {
+            return res.status(403).end();
+        }
+    });
 };
 
 
@@ -127,9 +138,9 @@ Controller.changePassword = function (req, res) {
 /**
  * Get my info
  */
-Controller.me = function (req, res, next) {
+ Controller.me = function (req, res, next) {
 
-                return res.json(req.user);
+    return res.json(req.user);
     // var userId = req.user._id;
 
     // return User.findOne({_id: userId}, '-salt -password').exec()
@@ -149,7 +160,7 @@ Controller.me = function (req, res, next) {
 /**
  * Authentication callback
  */
-Controller.authCallback = function (req, res) {
+ Controller.authCallback = function (req, res) {
     res.redirect('/');
 }
 
