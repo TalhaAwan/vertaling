@@ -5,97 +5,157 @@
 
 <body>
 
-    <div id="wrapper">
+  <div id="wrapper">
 
-     <? include ../partials/header ?>
-
-
-     <div id="page-wrapper">
-
-        <div class="container-fluid">
-
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                      <?= passage.title ?>
-                  </h1>
-
-              </div>
-          </div>
-          <!-- /.row -->
+   <? include ../partials/header ?>
 
 
-          <div class="row">
-            <div class="col-lg-12 text-left">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+   <div id="page-wrapper">
 
+    <div class="container-fluid">
 
-                        <?- passage.statement ?>
-                        
-                        
-                        
-                    </div>
-                </div>
-            </div>
+      <!-- Page Heading -->
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">
+            <?= passage.title ?>
+          </h1>
+
         </div>
-        <!-- /.row -->
+      </div>
+      <!-- /.row -->
+
+
+      <div class="row">
+        <div class="col-lg-12 text-left">
+          <div class="panel panel-default">
+            <div class="panel-body">
+
+
+              <?- passage.statement ?>
 
 
 
-
-        <div class="row">
-            <div class="col-md-6 text-left">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h3>Attempts</h3>
-                        <hr>
-                        <? attempts.forEach(function(attempt, index) { ?>
-                        <div class="row">
-                            <div class="col-lg-4">
-                             <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
-                             <?= attempt.user.email ?> <br>
-                             <?=   moment(attempt.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?>
-                         </div>
-
-                         <div class="col-lg-8">
-                          <?= attempt.translation ?>
-                      </div>
-
-                  </div>
-                  <hr>
-                  <? }); ?>
-              </div>
+            </div>
           </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+
+
+
+      <div class="row">
+        <div class="col-md-6 text-left">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h3>Attempts</h3>
+              <hr>
+              <? attempts.forEach(function(attempt, index) { ?>
+              <div class="row">
+                <div class="col-lg-4">
+                 <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
+                 <?= attempt.user.email ?> <br>
+                 <?=   moment(attempt.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?>
+               </div>
+
+               <div class="col-lg-8">
+                <?- attempt.translation ?>
+              </div>
+
+            </div>
+            <hr>
+            <? }); ?>
+          </div>
+        </div>
       </div>
 
 
       <div class="col-md-6 text-left">
         <div class="panel panel-default">
-            <div class="panel-body">
+          <div class="panel-body">
             <h3>Discussion</h3>
-                <hr>
-                <? attempts.forEach(function(attempt, index) { ?>
-                <div class="row">
-                    <div class="col-lg-4">
-                     <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
-                     <?= attempt.user.email ?> <br>
-                     <?=   moment(attempt.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?>
-                 </div>
+            <hr>
 
-                 <div class="col-lg-8">
-                  <?= attempt.translation ?>
-              </div>
+            <?= !comments.length? "No comments yet. Be the First to discuss" : null ?>
+            <? comments.forEach(function(comment, index) { ?>
+            <div class="row">
+              <div class="col-lg-4">
+               <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
+               <?= comment.user.email ?> <br>
+               <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?>
+             </div>
+
+             <div class="col-lg-8">
+
+              <span style="white-space: pre-wrap;"><?= comment.text ?></span>
+            </div>
 
           </div>
           <hr>
           <? }); ?>
+        </div>
       </div>
+
+
+<!--       <form action="/passages/<?= passage.id ?>/comments" method="POST">
+        <div class="form-group">
+          <label>Comment</label>
+          <textarea class="form-control" rows="3" name="text"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form> -->
+    </div>
   </div>
-</div>
-</div>
-<!-- /.row -->
+  <!-- /.row -->
+
+
+
+  <div class="row">
+
+    <? if(!userAttempt){ ?>
+    <div class="col-lg-6">
+      <!-- <h1>Attempt A Translation</h1> -->
+
+
+
+
+      <h1>Attempt A Translation</h1>
+      <form role="form" action="/passages/<?= passage.id ?>/attempts" method="POST">
+        <div class="form-group">
+          <label>Translation</label>
+          <textarea class="form-control" rows="3" name="translation"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+
+
+
+
+    </div>
+    <? } ?>
+
+
+    <div class="col-lg-6">
+      <!-- <h1>Attempt A Translation</h1> -->
+
+
+
+      <!-- <h1>Discuss</h1> -->
+      <form action="/passages/<?= passage.id ?>/comments" method="POST">
+        <div class="form-group">
+          <label>Comment</label>
+          <textarea class="form-control" rows="3" name="text"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+    </div>
+
+    
+  </div>
+  <!-- /.row -->  
 
 
 
