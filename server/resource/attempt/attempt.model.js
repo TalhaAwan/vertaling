@@ -15,4 +15,27 @@ var AttemptSchema = new Schema({
 });
 
 
+AttemptSchema.statics = {
+	createIfNotFound : function(attempt, done){
+		const self = this;
+		self.findOne({passage: attempt.passage, user: attempt.user, deleted: false}, function(err, atmpt){
+			if(err){
+				done(err)
+			}
+			else if(atmpt){
+				done(403)
+			}
+			else{
+				self.create(attempt, function(err, result){
+					if(err){
+						done(err);
+					}
+					else{
+						done();
+					}
+				})
+			}
+		})
+	}
+}
 module.exports.model = mongoose.model('Attempt', AttemptSchema);

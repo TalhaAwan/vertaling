@@ -46,32 +46,96 @@
             <br>
 
 
-            <? attempts.forEach(function(attempt, index) { ?>
+
             <div>
-                <span> <?= (index + 1) ?></span> <br>
-                <span> By <?= attempt.user.email ?></span> <br>
-                <span> <?= attempt.translation ?></span> <br>
-                <span> At <?= attempt.updatedAt ?></span> <br>
 
-            </div>
-            <? }); ?>
 
-            <h2> Attempt </h2>
-            <form action="/passages/<?= passage.id ?>/attempts" method="POST">
-                <h3>Translation</h3>
-                <input type="text" name="translation"><br>
+                <h3>Attempts</h3>
+                <table>
+                    <tr>
+
+                        <th> User </th>
+                        <th> Attempt</th>
+                        <th> Date</th>
+
+                    </tr>
+                    <? attempts.forEach(function(attempt, index) { ?>
+
+
+                    <tr>
+                        <td><?= attempt.user.email ?></td>
+                        <td><?= attempt.translation ?></td>
+                        <td>At <?= attempt.updatedAt ?></td>
+
+                    </tr>
+
+                    <? }); ?>
+                </table>
 
                 <br>
-                <input type="submit" value="Submit">
-            </form>
+                <h3>Comments</h3>
+                <table>
+                    <tr>
 
-        </div>
-    </main>
+                        <th> User </th>
+                        <th> Comment</th>
+                        <th> Date</th>
 
-    <footer>
-        <? include ../partials/footer ?>
-    </footer>
+                    </tr>
+                    <? comments.forEach(function(comment, index) { ?>
 
-</body>
 
-</html>
+                    <tr>
+                        <td><?= comment.user.email ?></td>
+                        <td><?= comment.text ?></td>
+                        <td>At <?= comment.updatedAt ?></td>
+
+                    </tr>
+
+                    <? }); ?>
+                </table>
+
+
+                <? if(!userAttempt){ ?>
+                <h2> Attempt </h2>
+                <form action="/passages/<?= passage.id ?>/attempts" method="POST">
+
+                    <input type="text" name="translation"><br>
+
+                    <br>
+                    <input type="submit" value="Submit">
+                </form>
+                <? } ?>
+
+                <br>
+                <h2> Comment </h2>
+                <form action="/passages/<?= passage.id ?>/comments" method="POST">
+
+                    <input type="text" name="text"><br>
+
+                    <br>
+                    <input type="submit" value="Submit">
+                </form>
+
+            </div>
+        </main>
+
+        <footer>
+            <? include ../partials/footer ?>
+        </footer>
+
+    </body>
+
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid black;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+
+    </html>

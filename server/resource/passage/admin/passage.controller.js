@@ -46,7 +46,7 @@ Controller.getEditView = function(req, res){
 }
 
 /**
- * Creates a new user
+ * Create a new passage
  */
  Controller.create = function (req, res) {
 
