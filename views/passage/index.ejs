@@ -1,68 +1,57 @@
-<!-- views/pages/index.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <? include ../partials/head ?>
-</head>
+
+<?include ../partials/head ?>
+
+<body>
+
+    <div id="wrapper">
+
+       <? include ../partials/header ?>
 
 
-<body class="container">
+       <div id="page-wrapper">
 
-    <header>
-        <? include ../partials/header ?>
-    </header>
+        <div class="container-fluid">
 
-    <main>
-        <div class="jumbotron">
-            <h2>Passages</h2>
-            
-            <table>
-                <tr>
-                    <th> Sr No.</th>
-                    <th> Slug </th>
-                    <th> Title</th>
-                    <th> Statement</th>
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        Passages
+                    </h1>
+                    
+                </div>
+            </div>
+            <!-- /.row -->
 
-                    <th> Actions</th>
-                </tr>
+            <div class="row">
                 <? passages.forEach(function(passage, index) { ?>
-
-
-                <tr>
-                    <td><?= (index + 1)?></td>
-                    <td><?= passage.slug?></td>
-                    <td><?= passage.title ?></td>
-                    <td><?- passage.statement?></td>
-                    <td>
-                        <a href="/passages/<?= passage.slug ?>">show</a>
-                    </td>
-                </tr>
-
+                <div class="col-lg-4 text-center">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            
+                            <a href="/passages/<?= passage.slug ?>" target="_blank"><?= passage.title ?></a>
+                        </div>
+                    </div>
+                </div>
                 <? }); ?>
-            </table>
+            </div>
+            <!-- /.row -->
+
+
+
 
         </div>
-    </main>
+        <!-- /.container-fluid -->
 
-    <footer>
-        <? include ../partials/footer ?>
-    </footer>
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
 
 </body>
 
-
-
-
-<style>
-    table {
-        width: 100%;
-        border: 1px solid black;
-    }
-
-    th, td {
-        border: 1px solid black;
-        padding: 10px;
-    }
-</style>
 </html>

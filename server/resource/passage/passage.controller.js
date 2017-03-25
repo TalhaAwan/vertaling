@@ -1,7 +1,8 @@
 'use strict';
 
 
-const async = require ('async')
+const async = require ('async');
+const moment = require('moment');
 const Passage = require ( './passage.model').model;
 const Attempt = require ( '../attempt/attempt.model').model;
 const Comment = require ( '../comment/comment.model').model;
@@ -125,7 +126,8 @@ Controller.update = function (req, res) {
                         passage: passage,
                         attempts: result.attempts,
                         comments: result.comments,
-                        userAttempt: result.userAttempt
+                        userAttempt: result.userAttempt,
+                        moment: moment
                     })
                 }
 
