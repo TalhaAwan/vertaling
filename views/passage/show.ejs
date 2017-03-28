@@ -46,7 +46,7 @@
 
 
       <div class="row">
-        <div class="col-md-6 text-left">
+        <div class="col-md-12 text-left">
           <div class="panel panel-default">
             <div class="panel-body">
               <h3>Attempts</h3>
@@ -71,7 +71,7 @@
       </div>
 
 
-      <div class="col-md-6 text-left">
+      <div class="col-md-12 text-left">
         <div class="panel panel-default">
           <div class="panel-body">
             <h3>Discussion</h3>
@@ -83,12 +83,14 @@
               <div class="col-lg-4">
                <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
                <?= comment.user.email ?> <br>
-               <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?>
+               <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?><br>
+               <a href=""> edit</a>
              </div>
 
              <div class="col-lg-8">
 
               <span style="white-space: pre-wrap;"><?= comment.text ?></span>
+
             </div>
 
           </div>
@@ -113,20 +115,20 @@
 
   <div class="row">
 
-    <? if(!userAttempt){ ?>
-    <div class="col-lg-6">
+    <? // if(!userAttempt){ ?>
+    <div class="col-lg-12">
       <!-- <h1>Attempt A Translation</h1> -->
 
 
 
 
-      <h1>Attempt A Translation</h1>
+      <!-- <h1>Attempt A Translation</h1> -->
       <form role="form" action="/passages/<?= passage.id ?>/attempts" method="POST">
         <div class="form-group">
-          <label>Translation</label>
+          <label>Attempt Translation</label>
           <textarea class="form-control" rows="3" name="translation"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Attempt</button>
       </form>
 
 
@@ -134,10 +136,11 @@
 
 
     </div>
-    <? } ?>
+    <?// } ?>
+  </div>
+  <div class="row" style="margin-top: 25px;">
 
-
-    <div class="col-lg-6">
+    <div class="col-lg-12">
       <!-- <h1>Attempt A Translation</h1> -->
 
 
@@ -145,10 +148,10 @@
       <!-- <h1>Discuss</h1> -->
       <form action="/passages/<?= passage.id ?>/comments" method="POST">
         <div class="form-group">
-          <label>Comment</label>
+          <label>Add Comment</label>
           <textarea class="form-control" rows="3" name="text"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Send</button>
       </form>
 
     </div>
