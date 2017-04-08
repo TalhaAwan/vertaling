@@ -34,14 +34,7 @@
 
           <?- passage.statement ?>
           <hr>
-          <?= !comments.length? "Be the First to discuss" : null ?>
-          <form action="/passages/<?= passage.id ?>/comments" method="POST">
-            <div class="form-group">
-              <!-- <label>Add Comment</label> -->
-              <textarea class="form-control" rows="3" name="text"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Comment</button>
-          </form>
+
           <br>
 
 
@@ -55,10 +48,21 @@
             <span ><?= comment.text ?></span> - <?= comment.user.email ?> <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?> <a href=""> edit</a>
 
           </div>
+
         </div>
 
         <hr style="margin-top: 10px; margin-bottom: 10px;">
         <? }); ?>
+
+        <a href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">Comment</a>
+
+        <form id="passage-comment" class="hidden" action="/passages/<?= passage.id ?>/comments" method="POST">
+          <div class="form-group">
+            <!-- <label>Add Comment</label> -->
+            <textarea class="form-control" rows="3" name="text"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Comment</button>
+        </form>
 
 
       </div>
@@ -133,33 +137,33 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </form> -->
 <!--     </div>
-  </div> -->
-  <!-- /.row -->
+</div> -->
+<!-- /.row -->
 
 
 
-  <div class="row">
+<div class="row">
 
 
-    <div class="col-lg-12">
-      <!-- <h1>Attempt A Translation</h1> -->
-
-
-
-
-      <!-- <h1>Attempt A Translation</h1> -->
-      <form role="form" action="/passages/<?= passage.id ?>/attempts" method="POST">
-        <div class="form-group">
-          <label>Attempt Translation</label>
-          <textarea class="form-control" rows="3" name="translation"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Attempt</button>
-      </form>
+  <div class="col-lg-12">
+    <!-- <h1>Attempt A Translation</h1> -->
 
 
 
-    </div>
+
+    <!-- <h1>Attempt A Translation</h1> -->
+    <form role="form" action="/passages/<?= passage.id ?>/attempts" method="POST">
+      <div class="form-group">
+        <label>Attempt Translation</label>
+        <textarea class="form-control" rows="3" name="translation"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Attempt</button>
+    </form>
+
+
+
   </div>
+</div>
 <!--   <div class="row" style="margin-top: 25px;">
 
     <div class="col-lg-12">

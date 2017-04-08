@@ -16,7 +16,22 @@ const Controller = {};
         user: req.user._id
     };
 
-    Attempt.createIfNotFound(attempt, function(err, result){
+    // Attempt.createIfNotFound(attempt, function(err, result){
+    //     if(err){
+    //         if(err == 403){
+    //             res.status(403).json("You have already attempted on this passage");
+    //         }
+    //         else{
+    //             res.status(500).json(err);
+    //         }
+    //     }
+    //     else{
+    //         res.redirect(req.get('referer'));
+    //     }
+    // })
+    // 
+    // 
+    Attempt.create(attempt, function(err, result){
         if(err){
             if(err == 403){
                 res.status(403).json("You have already attempted on this passage");
