@@ -38,6 +38,7 @@ Controller.getEditView = function(req, res){
         console.log(err)
     }
     else{
+        console.log(passage)
         res.render('passage/admin/edit', {
             passage: passage
         });
