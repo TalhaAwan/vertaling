@@ -33,7 +33,7 @@ Controller.getCreateView = function(req, res){
 
 
 Controller.getEditView = function(req, res){
- Passage.findOne({_id: req.params.id}, function(err, passage){
+   Passage.findOne({_id: req.params.id}, function(err, passage){
     if(err){
         console.log(err)
     }
@@ -51,6 +51,7 @@ Controller.getEditView = function(req, res){
  */
  Controller.create = function (req, res) {
 
+    req.body.user = req.user._id;
     Passage.create(req.body, function(err, result){
         if(err){
             req.flash("createErrorMessage", "Passage Create Error" + JSON.stringify(err));
@@ -65,6 +66,7 @@ Controller.getEditView = function(req, res){
 
 
 Controller.update = function (req, res) {
+    req.body.user = req.user._id;
     Passage.findOneAndUpdate({_id: req.params.id}, req.body, function(err, result){
         if(err){
             console.log(err);

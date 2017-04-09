@@ -12,6 +12,7 @@ var PassageSchema = new Schema({
     lowercase: true,
     index: {unique: true}
   },
+  user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
   statement: {type: String, required: true},
   createdAt: {type: Date, default: Date.now},
   updatedAt: {type: Date, default: Date.now},

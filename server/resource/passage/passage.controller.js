@@ -133,7 +133,7 @@ Controller.update = function (req, res) {
 
             })
         }
-    })
+    }).populate('user');
 };
 
 
