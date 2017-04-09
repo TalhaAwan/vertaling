@@ -78,7 +78,8 @@
   <div class="col-md-12 text-left">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h3>Attempts</h3>
+        <h3><?= attempts.length? attempts.length + " Attempt" + (attempts.length > 1? "s": "") : "" ?></h3>
+        <!-- <h3>Attempts</h3> -->
         <hr>
         <? attempts.forEach(function(attempt, index) { ?>
         <div class="row">
