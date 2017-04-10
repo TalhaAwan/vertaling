@@ -1,7 +1,8 @@
 'use strict';
 
-
+const async = require('async');
 const Passage = require ( '../passage/passage.model').model;
+const Attempt = require ( '../attempt/attempt.model').model;
 const Comment = require ( './comment.model').model;
 const config = require ( '../../config/environment');
 const Controller = {};
@@ -10,20 +11,54 @@ const Controller = {};
  * Creates a new comment
  */
  Controller.create = function (req, res) {
+    console.log("In Create")
     var comment = {
         text: req.body.text,
-        passage: req.params.id,
         user: req.user._id
     };
 
-    Comment.create(comment, function(err, result){
-        if(err){
-            res.status(500).json(err);
+    req.isAttemptComment? comment.attempt = req.params.id : comment.passage = req.params.id;
+    const ModelCommentedOn = req.isAttemptComment? Attempt : Passage;
+
+    async.waterfall([
+        function(callback){
+            Comment.create(comment, function(err, result){
+                if(err){
+                    return callback(err)
+                }
+                else{
+                    return callback(null, result._id)
+                }
+            });
+        },
+        function(commentId, callback){
+            ModelCommentedOn.update(
+                { _id: req.params.id }, 
+                { $push: { comments: commentId } }
+                ).
+            exec(function(err, res){
+                if(err){
+                    return callback(err)
+                }
+                else{
+                    console.log("Updated", req.params.id)
+                    return callback()
+                }
+            });
         }
-        else{
-            res.redirect(req.get('referer'));
-        }
-    });
+    ], function(err){
+       if(err){
+        console.log(err)
+        res.status(500).json(err);
+    }
+    else{
+        res.redirect(req.get('referer'));
+    }  
+});
+
+
+
+
 };
 
 module.exports = Controller;

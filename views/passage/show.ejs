@@ -31,7 +31,7 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="row ">
-  
+
             <div  class="col-md-12">
               <?- passage.statement ?>
             </div>
@@ -48,7 +48,7 @@
 
             </div>
             <div class="col-md-1">
-            <div style="padding:10px;">
+              <div style="padding:10px;">
                <img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="35" height="35">
              </div>
 
@@ -61,7 +61,7 @@
 
 
 
-         <? comments.forEach(function(comment, index) { ?>
+         <? passage.comments.forEach(function(comment, index) { ?>
          <div class="row small-font" >
           <div class="col-lg-1 small-font">
             <img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="20" height="20"> 
@@ -107,63 +107,62 @@
         <hr>
         <? attempts.forEach(function(attempt, index) { ?>
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-2 small-font">
            <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
            <?= attempt.user.email ?> <br>
            <?=   moment(attempt.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?>
          </div>
 
-         <div class="col-lg-8">
+         <div class="col-lg-10">
           <?- attempt.translation ?>
         </div>
 
+
+
       </div>
-      <hr>
-      <? }); ?>
-    </div>
-  </div>
-</div>
 
-<!-- 
-<div class="col-md-12 text-left">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h3>Discussion</h3>
-      <hr>
 
-      <?= !comments.length? "No comments yet. Be the First to discuss" : null ?>
-      <? comments.forEach(function(comment, index) { ?>
       <div class="row">
-        <div class="col-lg-4">
-         <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
-         <?= comment.user.email ?> <br>
-         <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?><br>
-         <a href=""> edit</a>
-       </div>
+        <div class="col-lg-2">
+        </div>
 
-       <div class="col-lg-8">
+        <div class="col-lg-10">
 
-        <span style="white-space: pre-wrap;"><?= comment.text ?></span>
+         <? attempt.comments.forEach(function(comment, index) { ?>
+         <div class="row small-font" >
+          <div class="col-lg-1 small-font">
+            <img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="20" height="20"> 
+          </div>
 
+          <div class="col-lg-11">
+            <!-- style="white-space: pre-wrap;" -->
+            <span ><?= comment.text ?></span> - <?= comment.user.email ?> <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?> <a href=""> edit</a>
+
+          </div>
+
+        </div>
+
+        <hr style="margin-top: 10px; margin-bottom: 10px;">
+        <? }); ?>
+        <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">Comment</a>
+
+        <form id="attempt-comment<?=attempt._id?>" class="hidden" action="/attempts/<?= attempt.id ?>/comments" method="POST">
+          <div class="form-group">
+            <textarea class="form-control" rows="3" name="text"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Comment</button>
+        </form>
       </div>
+
 
     </div>
     <hr>
     <? }); ?>
   </div>
-</div> -->
+</div>
+</div>
 
 
-<!--       <form action="/passages/<?= passage.id ?>/comments" method="POST">
-        <div class="form-group">
-          <label>Comment</label>
-          <textarea class="form-control" rows="3" name="text"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form> -->
-<!--     </div>
-</div> -->
-<!-- /.row -->
 
 
 

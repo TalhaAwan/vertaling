@@ -105,18 +105,19 @@ Controller.update = function (req, res) {
 
                         }
                     }).populate('user')
-                },
-                comments: function(callback){
-                    Comment.find({passage: passage._id}, function(err, comments){
-                        if(err){
-                            callback(err);
-                        }
-                        else{
-                            callback(null, comments);
-                        }
-
-                    }).populate('user')
+                      .populate('comments')
                 }
+                // comments: function(callback){
+                //     Comment.find({passage: passage._id}, function(err, comments){
+                //         if(err){
+                //             callback(err);
+                //         }
+                //         else{
+                //             callback(null, comments);
+                //         }
+
+                //     }).populate('user')
+                // }
             }, function(err, result){
                 if(err){
                     res.status(500).json(err);
@@ -125,7 +126,7 @@ Controller.update = function (req, res) {
                     res.render('passage/show', {
                         passage: passage,
                         attempts: result.attempts,
-                        comments: result.comments,
+                        // comments: result.comments,
                         userAttempt: result.userAttempt,
                         moment: moment
                     })
@@ -133,7 +134,8 @@ Controller.update = function (req, res) {
 
             })
         }
-    }).populate('user');
+    }).populate('user')
+      .populate({path : 'comments', populate: {path: 'user'}});
 };
 
 

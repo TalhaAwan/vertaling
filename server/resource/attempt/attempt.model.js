@@ -8,6 +8,7 @@ var AttemptSchema = new Schema({
 	score: {type: Number},
 	passage: {type: Schema.Types.ObjectId, ref: 'Passage', required: true},
 	user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+	comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
 	createdAt: {type: Date, default: Date.now},
 	updatedAt: {type: Date, default: Date.now},
 	deleted: {type: Boolean, default: false},

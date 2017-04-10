@@ -9,7 +9,7 @@ module.exports = function(app) {
 
 
 
-
+  app.use('/attempts', require('./resource/attempt'));
   app.use('/passages', require('./resource/passage'));
   app.use('/users', require('./resource/user'));
   app.use('/admin/passages', require('./resource/passage/admin'));
