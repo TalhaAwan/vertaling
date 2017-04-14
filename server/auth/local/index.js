@@ -22,14 +22,17 @@ router.post('/', validator.body(validationSchema.localSignIn), function(req, res
       if (err) {
         return res.status(500).json(error);
       } else {
+        console.log("1")
         if(user.role == "admin"){
-         res.redirect('/admin/passages');
-       }
-       else{
-         res.redirect('/passages');
-       }
-     }
-   });
+          console.log("2")
+          res.redirect('/admin/passages');
+        }
+        else{
+          console.log("3")
+          res.redirect('/passages');
+        }
+      }
+    });
 
 
   })(req, res, next);

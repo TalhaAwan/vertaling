@@ -105,7 +105,7 @@ Controller.update = function (req, res) {
 
                         }
                     }).populate('user')
-                      .populate('comments')
+                      .populate({path : 'comments',  options: { limit: 2}})
                 }
                 // comments: function(callback){
                 //     Comment.find({passage: passage._id}, function(err, comments){
@@ -135,7 +135,7 @@ Controller.update = function (req, res) {
             })
         }
     }).populate('user')
-      .populate({path : 'comments', populate: {path: 'user'}});
+      .populate({path : 'comments',  options: { limit: 2,  sort: { 'createdAt': -1 }}, populate: {path: 'user'}});
 };
 
 
