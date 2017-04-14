@@ -78,7 +78,7 @@
         <hr style="margin-top: 10px; margin-bottom: 10px;">
         <? }); ?>
 
-        <a href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">Comment</a>
+        <a href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> | <a href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
 
         <form id="passage-comment" class="hidden" action="/passages/<?= passage.id ?>/comments" method="POST">
           <div class="form-group">
@@ -144,7 +144,7 @@
 
         <hr style="margin-top: 10px; margin-bottom: 10px;">
         <? }); ?>
-        <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">Comment</a>
+        <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">write a comment</a> | <a href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('attempt', '<?=attempt._id?>')">load more </a>
 
         <form id="attempt-comment<?=attempt._id?>" class="hidden" action="/attempts/<?= attempt.id ?>/comments" method="POST">
           <div class="form-group">
@@ -212,6 +212,15 @@
 </div>
 <!-- /#wrapper -->
 <? include ../partials/footer ?>
+
+
+<script>
+
+function loadMoreComments(type, id) {
+  console.log(type, id)
+}
+
+</script>
 
 </body>
 
