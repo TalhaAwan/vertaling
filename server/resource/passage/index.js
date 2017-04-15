@@ -17,12 +17,15 @@ router.get('/', auth.isAuthenticated(),  controller.index);
 // router.get('/create', controller.getCreateView);
 // router.get('/edit/:id', controller.getEditView);
 // 
-router.get('/load-more-comments', controller.loadMoreComments);
+router.get('/:id/comments', controller.comments);
 router.get('/:slug', controller.show);
 // router.post('/', controller.create);
 
 router.post('/:id/attempts', attemptController.create);
 router.post('/:id/comments', commentController.create);
+
+
+
 
 
 
