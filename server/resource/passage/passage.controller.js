@@ -105,7 +105,7 @@ Controller.update = function (req, res) {
 
                         }
                     }).populate('user')
-                      .populate({path : 'comments',  options: { limit: 2}})
+                    .populate({path : 'comments',  options: { limit: 2}})
                 }
                 // comments: function(callback){
                 //     Comment.find({passage: passage._id}, function(err, comments){
@@ -135,9 +135,24 @@ Controller.update = function (req, res) {
             })
         }
     }).populate('user')
-      .populate({path : 'comments',  options: { limit: 2,  sort: { 'createdAt': -1 }}, populate: {path: 'user'}});
+    .populate({path : 'comments',  options: { limit: 2,  sort: { 'createdAt': -1 }}, populate: {path: 'user'}});
 };
 
+
+Controller.loadMoreComments = function (req, res) {
+    res.render('passage/component/passage/comment', {
+        passage: {
+            comments: [{
+                text: "test 1",
+                user: {
+                    email: "awan@gmail.com"
+                },
+                updatedAt: new Date()
+            }]
+        },
+        moment: moment
+    })
+}
 
 
 /**

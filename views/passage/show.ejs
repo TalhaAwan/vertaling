@@ -60,27 +60,15 @@
          <br>
 
 
+         <div id="passage-comments">
 
-         <? passage.comments.forEach(function(comment, index) { ?>
-         <div class="row small-font" >
-          <div class="col-lg-1 small-font">
-            <img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="20" height="20"> 
-          </div>
+           <? include ./component/passage/comment  ?>
+         </div>
 
-          <div class="col-lg-11">
-            <!-- style="white-space: pre-wrap;" -->
-            <span ><?= comment.text ?></span> - <?= comment.user.email ?> <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?> <a href=""> edit</a>
 
-          </div>
+         <a href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> | <a href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
 
-        </div>
-
-        <hr style="margin-top: 10px; margin-bottom: 10px;">
-        <? }); ?>
-
-        <a href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> | <a href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
-
-        <form id="passage-comment" class="hidden" action="/passages/<?= passage.id ?>/comments" method="POST">
+         <form id="passage-comment" class="hidden" action="/passages/<?= passage.id ?>/comments" method="POST">
           <div class="form-group">
             <!-- <label>Add Comment</label> -->
             <textarea class="form-control" rows="3" name="text"></textarea>
@@ -216,9 +204,16 @@
 
 <script>
 
-function loadMoreComments(type, id) {
-  console.log(type, id)
-}
+  function loadMoreComments(type, id) {
+    console.log(type, id);
+    console.log($('#passage-comments').children('.passage').length);
+    // $("#passage-comments").load("/passages/load-more-comments");
+
+    $.get("/passages/load-more-comments", function(data, status){
+      $( "#passage-comments" ).append( data );
+      console.log($('#passage-comments').children('.passage').length);
+    });
+  }
 
 </script>
 
