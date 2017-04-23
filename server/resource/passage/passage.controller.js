@@ -36,7 +36,7 @@ Controller.getCreateView = function(req, res){
 
 
 Controller.getEditView = function(req, res){
- Passage.findOne({_id: req.params.id}, function(err, passage){
+   Passage.findOne({_id: req.params.id}, function(err, passage){
     if(err){
         res.status(500).json(err);
     }
@@ -148,6 +148,8 @@ Controller.comments = function (req, res) {
             res.json(null);
         }
         else{
+
+
             res.render('passage/component/passage/comment', {
                 passage: {
                     comments: comments
@@ -155,7 +157,9 @@ Controller.comments = function (req, res) {
                 moment: moment
             })
         }
-    }).limit(10)
+    })
+    .populate("user")
+    .limit(10)
     .skip(parseInt(req.query.skip))
     .sort({ 'createdAt': -1 })
 

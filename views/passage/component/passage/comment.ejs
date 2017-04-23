@@ -6,9 +6,13 @@
 
           	<div class="col-lg-11">
           		<!-- style="white-space: pre-wrap;" -->
-          		<span ><?= comment.text ?></span> - <?= comment.user.email ?> <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?> <a href=""> edit</a>
+          		<span ><?= comment.text ?></span> - <?= comment.user.email ?> <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?> 
 
-          	</div>
+                    <? if (user && user._id.toString() == comment.user._id.toString()) { ?>
+                    <a href=""> edit</a>
+                    <?} ?>
+
+               </div>
 
           </div>
 

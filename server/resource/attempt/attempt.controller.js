@@ -57,7 +57,7 @@ Controller.comments = function (req, res) {
         else if(!comments || !comments.length){
             res.json(null);
         }
-        else{
+        else{   
             res.render('passage/component/attempt/comment', {
                 attempt: {
                     comments: comments
@@ -65,7 +65,9 @@ Controller.comments = function (req, res) {
                 moment: moment
             })
         }
-    }).limit(10)
+    })
+    .populate("user")
+    .limit(10)
     .skip(parseInt(req.query.skip))
     .sort({ 'createdAt': -1 })
 
