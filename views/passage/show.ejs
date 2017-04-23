@@ -66,7 +66,7 @@
          </div>
 
 
-         <a href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> &nbsp; &nbsp; &nbsp; <a href="javascript:" id="passage-load-more" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
+         <a href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> &nbsp; &nbsp; &nbsp; <a href="javascript:" id="load-more-<?= passage.id ?>" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
 
          <form id="passage-comment" class="hidden" action="/passages/<?= passage.id ?>/comments" method="POST">
           <div class="form-group">
@@ -116,23 +116,12 @@
 
         <div class="col-lg-10">
 
-         <? attempt.comments.forEach(function(comment, index) { ?>
-         <div class="row small-font" >
-          <div class="col-lg-1 small-font">
-            <img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="20" height="20"> 
-          </div>
+         <div id="attempt-comments">
 
-          <div class="col-lg-11">
-            <!-- style="white-space: pre-wrap;" -->
-            <span ><?= comment.text ?></span> - <?= comment.user.email ?> <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?> <a href=""> edit</a>
+           <? include ./component/attempt/comment  ?>
+         </div>
 
-          </div>
-
-        </div>
-
-        <hr style="margin-top: 10px; margin-bottom: 10px;">
-        <? }); ?>
-        <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">write a comment</a> | <a href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('attempt', '<?=attempt._id?>')">load more </a>
+        <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">write a comment</a>  &nbsp; &nbsp; &nbsp; <a id="load-more-<?= attempt.id ?>" href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('attempt', '<?=attempt._id?>')">load more </a>
 
         <form id="attempt-comment<?=attempt._id?>" class="hidden" action="/attempts/<?= attempt.id ?>/comments" method="POST">
           <div class="form-group">
@@ -203,24 +192,20 @@
 
 
 <script>
-  var passageId;
-  $(document).ready(function(){
-    passageId= "<?= passage._id ?>"
-  })
-
 
   function loadMoreComments(type, id) {
     console.log(type, id);
-    var skip =$('#passage-comments').children('.passage').length;
+    var skip = $('#'+type+'-comments').children('.'+type+'').length;
+    console.log(skip)
 
-    $.get("/passages/"+passageId+"/comments?skip="+skip, function(data, status){
+    $.get("/"+type+"s/"+id+"/comments?skip="+skip, function(data, status){
       console.log(!data);
       if(!data){
-        $( "#passage-load-more" ).hide();
+        $( "#load-more-"+id ).hide();
       }
       else{
-        $( "#passage-comments" ).append( data );
-        console.log($('#passage-comments').children('.passage').length);
+        $( "#"+type+"-comments" ).append( data );
+        console.log($('#'+type+'-comments').children('.'+type+'').length);
       }
 
     });

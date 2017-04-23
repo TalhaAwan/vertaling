@@ -1,16 +1,16 @@
-          <? passage.comments.forEach(function(comment, index) { ?>
-          <div class="row small-font" >
-          	<div class="col-lg-1 small-font">
-          		<img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="20" height="20"> 
-          	</div>
+         <? attempt.comments.forEach(function(comment, index) { ?>
+         <div class="row small-font attempt" >
+          <div class="col-lg-1 small-font">
+            <img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="20" height="20"> 
+          </div>
 
-          	<div class="col-lg-11">
-          		<!-- style="white-space: pre-wrap;" -->
-          		<span ><?= comment.text ?></span> - <?= comment.user.email ?> <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?> <a href=""> edit</a>
-
-          	</div>
+          <div class="col-lg-11">
+            <!-- style="white-space: pre-wrap;" -->
+            <span ><?= comment.text ?></span> - <?= comment.user.email ?> <?=   moment(comment.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?> <a href=""> edit</a>
 
           </div>
 
-          <hr style="margin-top: 10px; margin-bottom: 10px;">
-          <? }); ?>
+        </div>
+
+        <hr style="margin-top: 10px; margin-bottom: 10px;">
+        <? }); ?>

@@ -10,6 +10,7 @@ const auth = require('../../auth/auth.service');
 
 const router = new Router();
 
+router.get('/:id/comments', controller.comments);
 router.post('/:id/comments', function(req, res, next){
 	req.isAttemptComment = true;
 	return next();

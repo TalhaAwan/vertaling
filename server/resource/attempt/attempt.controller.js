@@ -1,9 +1,11 @@
 'use strict';
 
+const moment = require('moment');
 
+const config = require ( '../../config/environment');
 const Passage = require ( '../passage/passage.model').model;
 const Attempt = require ( './attempt.model').model;
-const config = require ( '../../config/environment');
+const Comment = require ( '../comment/comment.model').model;
 const Controller = {};
 
 /**
@@ -45,5 +47,28 @@ const Controller = {};
         }
     })
 };
+
+
+Controller.comments = function (req, res) {
+    Comment.find({attempt: req.params.id}, function(err, comments){
+        if(err){
+            res.status(500).json(err);
+        }
+        else if(!comments || !comments.length){
+            res.json(null);
+        }
+        else{
+            res.render('passage/component/attempt/comment', {
+                attempt: {
+                    comments: comments
+                },
+                moment: moment
+            })
+        }
+    }).limit(10)
+    .skip(parseInt(req.query.skip))
+    .sort({ 'createdAt': -1 })
+
+}
 
 module.exports = Controller;
