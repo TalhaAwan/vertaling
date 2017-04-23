@@ -58,6 +58,7 @@ Controller.comments = function (req, res) {
             res.json(null);
         }
         else{   
+         
             res.render('passage/component/attempt/comment', {
                 attempt: {
                     comments: comments
