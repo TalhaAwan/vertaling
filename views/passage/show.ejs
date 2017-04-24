@@ -121,9 +121,9 @@
            <? include ./component/attempt/comment  ?>
          </div>
 
-        <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">write a comment</a>  &nbsp; &nbsp; &nbsp; <a id="load-more-<?= attempt.id ?>" href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('attempt', '<?=attempt._id?>')">load more </a>
+         <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">write a comment</a>  &nbsp; &nbsp; &nbsp; <a id="load-more-<?= attempt.id ?>" href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('attempt', '<?=attempt._id?>')">load more </a>
 
-        <form id="attempt-comment<?=attempt._id?>" class="hidden" action="/attempts/<?= attempt.id ?>/comments" method="POST">
+         <form id="attempt-comment<?=attempt._id?>" class="hidden" action="/attempts/<?= attempt.id ?>/comments" method="POST">
           <div class="form-group">
             <textarea class="form-control" rows="3" name="text"></textarea>
           </div>
@@ -209,6 +209,20 @@
       }
 
     });
+  }
+
+
+  function deleteComment (type, id, commentId){
+    console.log(commentId);;
+
+
+    $.ajax({
+     url: "/"+type+"s/"+id+"/comments/"+commentId,
+     type: 'DELETE',
+     success: function(response) {
+          $( "#comment"+commentId ).remove();
+     }
+   });
   }
 
 

@@ -18,6 +18,8 @@ router.get('/', auth.isAuthenticated(),  controller.index);
 // router.get('/edit/:id', controller.getEditView);
 // 
 router.get('/:id/comments', controller.comments);
+
+router.delete('/:id/comments/:commentId', controller.destroyComment);
 router.get('/:slug', controller.show);
 // router.post('/', controller.create);
 

@@ -25,13 +25,12 @@ var PassageSchema = new Schema({
 PassageSchema
 .pre('save', function(next){
   preSave(this);
-  console.log("Coming in pre save")
   next();	
 });
 
 PassageSchema
 .pre('findOneAndUpdate', function(next){
-  preSave(this._update);
+  this._update.title && this._update.statement? preSave(this._update) : null;
   next();    
 });
 
@@ -74,6 +73,8 @@ PassageSchema.statics = {
 
 
 var preSave = module.exports.preSave =  function (passage){
+  console.log("passage here")
+  console.log(passage)
   passage.slug = slug(passage.title, {lower: true});
   passage.statement = sanitizeHtml(passage.statement, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])

@@ -36,7 +36,7 @@ Controller.getCreateView = function(req, res){
 
 
 Controller.getEditView = function(req, res){
-   Passage.findOne({_id: req.params.id}, function(err, passage){
+ Passage.findOne({_id: req.params.id}, function(err, passage){
     if(err){
         res.status(500).json(err);
     }
@@ -164,6 +164,26 @@ Controller.comments = function (req, res) {
     .sort({ 'createdAt': -1 })
 
 }
+
+Controller.destroyComment = function (req, res) {
+    Passage.findOneAndUpdate({ _id: req.params.id}, { $pull: { comments: req.params.commentId }}, { 'new': true, validateBeforeSave: false}, function(err){
+        if(err){
+            res.status(500).json(err);
+        }
+        else{
+            Comment.findByIdAndRemove(req.params.commentId, function(err){
+                if(err){
+                    res.status(500).json(err);
+                }
+                else{
+                    res.json(true);
+                }
+            })
+
+        }
+    });
+
+};
 
 
 /**
