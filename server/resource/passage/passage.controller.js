@@ -135,7 +135,7 @@ Controller.update = function (req, res) {
             })
         }
     }).populate('user')
-    .populate({path : 'comments',  options: { limit: 2,  sort: { 'createdAt': -1 }}, populate: {path: 'user'}});
+    .populate({path : 'comments',  options: { limit: 2,  sort: { 'createdAt': 1 }}, populate: {path: 'user'}});
 };
 
 
@@ -152,6 +152,7 @@ Controller.comments = function (req, res) {
 
             res.render('passage/component/passage/comment', {
                 passage: {
+                    _id: req.params.id,
                     comments: comments
                 },
                 moment: moment
@@ -161,7 +162,7 @@ Controller.comments = function (req, res) {
     .populate("user")
     .limit(10)
     .skip(parseInt(req.query.skip))
-    .sort({ 'createdAt': -1 })
+    .sort({ 'createdAt': 1 })
 
 }
 
