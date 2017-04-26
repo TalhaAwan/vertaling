@@ -160,7 +160,7 @@ Controller.comments = function (req, res) {
         }
     })
     .populate("user")
-    .limit(10)
+    .limit(req.query.noLimit? null: 10)
     .skip(parseInt(req.query.skip))
     .sort({ 'createdAt': 1 })
 

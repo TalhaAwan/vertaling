@@ -1,6 +1,7 @@
 'use strict';
 
 const async = require('async');
+const moment = require('moment');
 const Passage = require ( '../passage/passage.model').model;
 const Attempt = require ( '../attempt/attempt.model').model;
 const Comment = require ( './comment.model').model;
@@ -11,7 +12,7 @@ const Controller = {};
  * Creates a new comment
  */
  Controller.create = function (req, res) {
-    console.log("In Create")
+    console.log("In Create", req.body)
     var comment = {
         text: req.body.text,
         user: req.user._id
@@ -22,19 +23,19 @@ const Controller = {};
 
     async.waterfall([
         function(callback){
-            Comment.create(comment, function(err, result){
+            Comment.create(comment, function(err, comment){
                 if(err){
                     return callback(err)
                 }
                 else{
-                    return callback(null, result._id)
+                    return callback(null, comment)
                 }
             });
         },
-        function(commentId, callback){
+        function(comment, callback){
             ModelCommentedOn.update(
                 { _id: req.params.id }, 
-                { $push: { comments: commentId } }
+                { $push: { comments: comment._id } }
                 ).
             exec(function(err, res){
                 if(err){
@@ -42,19 +43,28 @@ const Controller = {};
                 }
                 else{
                     console.log("Updated", req.params.id)
-                    return callback()
+                    return callback(null, comment)
                 }
             });
         }
-    ], function(err){
-       if(err){
-        console.log(err)
-        res.status(500).json(err);
-    }
-    else{
-        res.redirect(req.get('referer'));
-    }  
-});
+        ], function(err, comment){
+           if(err){
+            console.log(err)
+            res.status(500).json(err);
+        }
+        else{
+            console.log("comment created", comment);
+            comment.user = req.user;
+            // res.send({comment: comment})
+            res.render('passage/component/passage/comment', {
+                passage: {
+                    _id: req.params.id,
+                    comments: [comment]
+                },
+                moment: moment
+            })
+        }  
+    });
 
 
 

@@ -66,14 +66,14 @@
          </div>
 
 
-         <a href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> &nbsp; &nbsp; &nbsp; <a href="javascript:" id="load-more-<?= passage.id ?>" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
+         <a id="write-a-comment<?= passage.id ?>" href="javascript:" style="font-size: 0.875em" onclick="writeAComment('passage', '<?=passage._id?>')">write a comment</a> &nbsp; &nbsp; &nbsp; <a href="javascript:" id="load-more-<?= passage.id ?>" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
 
-         <form id="passage-comment" class="hidden" action="/passages/<?= passage.id ?>/comments" method="POST">
+         <form id="passage-comment" name="passage-comment" class="hidden">
           <div class="form-group">
             <!-- <label>Add Comment</label> -->
             <textarea class="form-control" rows="3" name="text"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Comment</button>
+          <button  type="button" class="btn btn-primary" onclick="addComment('passage', '<?=passage._id?>')">Comment</button>
         </form>
 
 
@@ -193,12 +193,14 @@
 
 <script>
 
-  function loadMoreComments(type, id) {
+  function loadMoreComments(type, id, callback) {
     console.log(type, id);
     var skip = $('#'+type+'-comments').children('.'+type+'').length;
     console.log(skip)
 
-    $.get("/"+type+"s/"+id+"/comments?skip="+skip, function(data, status){
+
+    var noLimit = callback? true: false;
+    $.get("/"+type+"s/"+id+"/comments?skip="+skip+"&noLimit="+noLimit, function(data, status){
       console.log(!data);
       if(!data){
         $( "#load-more-"+id ).hide();
@@ -206,6 +208,9 @@
       else{
         $( "#"+type+"-comments" ).append( data );
         console.log($('#'+type+'-comments').children('.'+type+'').length);
+        if(callback){
+          callback()
+        }
       }
 
     });
@@ -222,9 +227,46 @@
      url: "/"+type+"s/"+id+"/comments/"+commentId,
      type: 'DELETE',
      success: function(response) {
-          $( "#comment"+commentId ).remove();
-     }
-   });
+      $( "#comment"+commentId ).remove();
+    }
+  });
+  };
+
+
+  function addComment (type, id){
+    console.log(id);
+    // console.log(commentId);
+    console.log("/"+type+"s/"+ id +"/comments")
+
+
+var data = {};
+$("#passage-comment").serializeArray().map(function(x){data[x.name] = x.value;}); 
+
+console.log(data);
+
+console.log()
+    $.ajax({
+     url: "/"+type+"s/"+ id +"/comments",
+     data: data,
+     type: 'POST',
+     success: function(data) {
+      // console.log(response);
+      $( "#"+type+"-comments" ).append( data );
+    },
+
+    error: function(error){
+      console.log(error)
+    }
+  });
+  }
+
+  function writeAComment(type, id){
+    console.log("here")
+
+    loadMoreComments(type, id, function(){
+          $("#"+type+"-comment").removeClass('hidden'); $("#write-a-comment"+id).hide('slow')
+    })
+
   }
 
 
