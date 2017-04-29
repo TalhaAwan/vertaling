@@ -140,7 +140,8 @@ Controller.update = function (req, res) {
 
 
 Controller.comments = function (req, res) {
-    Comment.find({passage: req.params.id}, function(err, comments){
+    console.log(req.query)
+    Comment.find({passage: req.params.id, _id: { $nin: req.query.ids }}, function(err, comments){
         if(err){
             res.status(500).json(err);
         }
@@ -160,8 +161,7 @@ Controller.comments = function (req, res) {
         }
     })
     .populate("user")
-    .limit(req.query.noLimit? null: 10)
-    .skip(parseInt(req.query.skip))
+    .limit(5)
     .sort({ 'createdAt': 1 })
 
 }
