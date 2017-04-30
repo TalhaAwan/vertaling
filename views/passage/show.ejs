@@ -193,8 +193,7 @@
 
 <script>
 
-  function loadMoreComments(type, id) {
-    var skip = $('#'+type+'-comments').children('.'+type+'').length;
+  function loadMoreComments(type, id) { 
     var query = "/"+type+"s/"+id+"/comments?"
     var commentIds = "";
     $("#passage-comments .passage").each(function(){
@@ -203,6 +202,7 @@
     $.get(query + commentIds, function(data, status){
       if(!data){
         $( "#load-more-"+id ).hide();
+        triggerCommentInterval(type, id);
       }
       else{
         $( "#"+type+"-comments" ).append(data);
@@ -214,6 +214,30 @@
       }
 
     });
+
+  }
+
+
+  function triggerCommentInterval(type, id){
+    setInterval(function(){
+      console.log("in setInterval")
+     var query = "/"+type+"s/"+id+"/comments?"
+     var commentIds = "";
+     $("#passage-comments .passage").each(function(){
+      commentIds += "&ids="+ $(this).attr('data-id');
+    });
+     $.get(query + commentIds, function(data, status){
+      if(data){
+        $( "#"+type+"-comments" ).append(data);
+        $('#passage-comments .passage').sort(function (a, b) {
+          var contentA = Date.parse( $(a).attr('data-date'));
+          var contentB = Date.parse( $(b).attr('data-date'));
+          return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+        }).appendTo("#passage-comments")
+      }
+
+    });
+   }, 30000);
 
   }
 

@@ -161,7 +161,7 @@ Controller.comments = function (req, res) {
         }
     })
     .populate("user")
-    .limit(5)
+    .limit(10)
     .sort({ 'createdAt': 1 })
 
 }
