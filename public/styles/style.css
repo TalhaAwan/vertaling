@@ -76,6 +76,22 @@
     }
 }
 
+
+
+.numberCircle {
+    border-radius: 35%;
+    behavior: url(PIE.htc);
+    padding: 5px;
+    background-color: #ff606e;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 900 !important;
+    font-style: italic !important;
+    font: 10px Arial, sans-serif;
+}
+
+
+
 body > .container{
 	min-height: 600px;
 }
