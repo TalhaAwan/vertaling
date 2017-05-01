@@ -2,32 +2,85 @@
     font-size: 0.875em
 }
 
-.navbar-inverse {
+/*.navbar-inverse {
 	background-color: #fafafb;
 	border-color: lightgray
 }
+*/
+
+
+/*#262c38
+#517398
+#ff606e
+#00ddd8*/
+
+.navbar-inverse {
+    background-color: #00ddd8;
+    border-color: #00ddd8;
+}
 
 .navbar-inverse .navbar-nav>li>a {
-    color: #535a86;
+    color: #ffffff;
 }
 
 
+
+
 .navbar.navbar-inverse.navbar-fixed-top li > a:hover {
-    color: lightblue;
+    color: #517398;
 }
 
 
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
-    color: lightblue;
-    background-color: rgba(112, 155, 176, 0.78);
+    color: #ffffff;
+
+    font-weight: 900;
+    background-color: transparent;
 }
 
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.navbar-inverse .navbar-brand{
+ color: #ffffff;
+ font-weight: 900;
+}
+
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
+    border-color: #00ddd8;
+}
+
+.navbar-inverse .navbar-toggle {
+    border-color: #00ddd8;
+}
+
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+  background-color: #517398;
+}
+
+
+@media (max-width: 767px) {
+
+    .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+        color: #ffffff;
+    }
+    .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: #517398;
+        background-color: transparent;
+    }
+}
 
 body > .container{
 	min-height: 600px;
 }
 
-   
+
 footer {
     margin: 30px 0 0 0 !important;
     padding: 10px;
