@@ -27,7 +27,8 @@
 
 
 .navbar.navbar-inverse.navbar-fixed-top li > a:hover {
-    color: #517398;
+    /*color: #517398;*/
+    background-color: #517398;
 }
 
 
@@ -45,8 +46,8 @@
 }
 
 .navbar-inverse .navbar-brand{
- color: #ffffff;
- font-weight: 900;
+   color: #ffffff;
+   font-weight: 900;
 }
 
 
@@ -76,6 +77,16 @@
     }
 }
 
+
+
+.dropdown-menu > li > a {
+  color: #517398;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  background-color: #517398;
+}
 
 
 .numberCircle {
