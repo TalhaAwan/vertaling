@@ -13,179 +13,171 @@
 
  <!-- Page Content -->
  <div class="container">
+   <div  class="row">
+     <div class="col-md-2">
+     </div>
+     <div class="col-md-8">
+      <!-- Page Heading -->
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">
+            <?= passage.title ?>
+          </h1>
 
-  <!-- Page Heading -->
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">
-        <?= passage.title ?>
-      </h1>
-
-    </div>
-  </div>
-  <!-- /.row -->
-
-
-  <div class="row">
-    <div class="col-lg-12 text-left">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="row ">
-
-            <div  class="col-md-12">
-              <?- passage.statement ?>
-            </div>
-          </div>
-
-          <div class="row ">
-
-            <div  class="col-md-2 small-font" >
-              <div style="background-color: lightgray; padding:10px; ">
-                <img src="https://unsplash.it/50/50/?random" class="img-rounded" alt="Cinque Terre" width="35" height="35">
-                <?= passage.user.email ?> <br>
-                <?=   moment(passage.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?><br>
-              </div>
-
-            </div>
-            <div class="col-md-1">
-              <div style="padding:10px;">
-               <img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="35" height="35">
-             </div>
-
-           </div>
-         </div>
-
-         <hr>
-
-         <br>
-
-
-         <div id="passage-comments">
-
-           <? include ./component/passage/comment  ?>
-         </div>
-
-
-         <a id="write-a-comment<?= passage.id ?>" href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> &nbsp; &nbsp; &nbsp; <a href="javascript:" id="load-more-<?= passage.id ?>" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
-
-         <form id="passage-comment" name="passage-comment" class="hidden">
-          <div class="form-group">
-            <!-- <label>Add Comment</label> -->
-            <textarea class="form-control" rows="3" name="text"></textarea>
-          </div>
-          <button  type="button" class="btn btn-primary" onclick="addComment('passage', '<?=passage._id?>')">Comment</button>
-        </form>
-
-
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /.row -->
-
-
-
-
-<div class="row">
-  <div class="col-md-12 text-left">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h3><?= attempts.length? attempts.length + " Attempt" + (attempts.length > 1? "s": "") : "" ?></h3>
-        <!-- <h3>Attempts</h3> -->
-        <hr>
-        <? attempts.forEach(function(attempt, index) { ?>
-        <div class="row">
-          <div class="col-lg-2 small-font">
-           <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
-           <?= attempt.user.email ?> <br>
-           <?=   moment(attempt.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?>
-         </div>
-
-         <div class="col-lg-10">
-          <?- attempt.translation ?>
         </div>
-
-
-
       </div>
+      <!-- /.row -->
 
 
       <div class="row">
-        <div class="col-lg-2">
-        </div>
+        <div class="col-lg-12 text-left">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row ">
 
-        <div class="col-lg-10">
+                <div  class="col-md-12">
+                  <?- passage.statement ?>
+                </div>
+              </div>
 
-         <div id="attempt-comments">
+              <div class="row ">
 
-           <? include ./component/attempt/comment  ?>
-         </div>
+                <div  class="col-md-2 small-font" >
+                  <div style="background-color: lightgray; padding:10px; ">
+                    <img src="https://unsplash.it/50/50/?random" class="img-rounded" alt="Cinque Terre" width="35" height="35">
+                    <?= passage.user.email ?> <br>
+                    <?=   moment(passage.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?><br>
+                  </div>
 
-         <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">write a comment</a>  &nbsp; &nbsp; &nbsp; <a id="load-more-<?= attempt.id ?>" href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('attempt', '<?=attempt._id?>')">load more </a>
+                </div>
+                <div class="col-md-1">
+                  <div style="padding:10px;">
+                   <img src="/images/ladder.png" class="img-circle" alt="Cinque Terre" width="35" height="35">
+                 </div>
 
-         <form id="attempt-comment<?=attempt._id?>" class="hidden" action="/attempts/<?= attempt.id ?>/comments" method="POST">
-          <div class="form-group">
-            <textarea class="form-control" rows="3" name="text"></textarea>
+               </div>
+             </div>
+
+             <hr>
+
+             <br>
+
+
+             <div id="passage-comments">
+
+               <? include ./component/passage/comment  ?>
+             </div>
+
+
+             <a id="write-a-comment<?= passage.id ?>" href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> &nbsp; &nbsp; &nbsp; <a href="javascript:" id="load-more-<?= passage.id ?>" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
+
+             <form id="passage-comment" name="passage-comment" class="hidden">
+              <div class="form-group">
+                <!-- <label>Add Comment</label> -->
+                <textarea class="form-control" rows="3" name="text"></textarea>
+              </div>
+              <button  type="button" class="btn btn-primary" onclick="addComment('passage', '<?=passage._id?>')">Comment</button>
+            </form>
+
+
           </div>
-          <button type="submit" class="btn btn-primary">Comment</button>
-        </form>
+        </div>
       </div>
-
-
     </div>
-    <hr>
-    <? }); ?>
-  </div>
-</div>
-</div>
+    <!-- /.row -->
 
 
 
 
+    <div class="row">
+      <div class="col-md-12 text-left">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h3><?= attempts.length? attempts.length + " Attempt" + (attempts.length > 1? "s": "") : "" ?></h3>
+            <!-- <h3>Attempts</h3> -->
+            <hr>
+            <? attempts.forEach(function(attempt, index) { ?>
+            <div class="row">
+              <div class="col-lg-2 small-font">
+               <img src="https://unsplash.it/50/50/?random" class="img-circle" alt="Cinque Terre" width="50" height="50"> <br>
+               <?= attempt.user.email ?> <br>
+               <?=   moment(attempt.updatedAt).format('MMM D, YYYY [at] h:mm:ss a');  ?>
+             </div>
 
-<div class="row">
-
-
-  <div class="col-lg-12">
-    <!-- <h1>Attempt A Translation</h1> -->
-
+             <div class="col-lg-10">
+              <?- attempt.translation ?>
+            </div>
 
 
 
-    <!-- <h1>Attempt A Translation</h1> -->
-    <form role="form" action="/passages/<?= passage.id ?>/attempts" method="POST">
-      <div class="form-group">
-        <label>Attempt Translation</label>
-        <textarea class="form-control" rows="3" name="translation"></textarea>
+          </div>
+
+
+          <div class="row">
+            <div class="col-lg-2">
+            </div>
+
+            <div class="col-lg-10">
+
+             <div id="attempt-comments">
+
+               <? include ./component/attempt/comment  ?>
+             </div>
+
+             <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">write a comment</a>  &nbsp; &nbsp; &nbsp; <a id="load-more-<?= attempt.id ?>" href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('attempt', '<?=attempt._id?>')">load more </a>
+
+             <form id="attempt-comment<?=attempt._id?>" class="hidden" action="/attempts/<?= attempt.id ?>/comments" method="POST">
+              <div class="form-group">
+                <textarea class="form-control" rows="3" name="text"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Comment</button>
+            </form>
+          </div>
+
+
+        </div>
+        <hr>
+        <? }); ?>
       </div>
-      <button type="submit" class="btn btn-primary">Attempt</button>
-    </form>
-
-
-
+    </div>
   </div>
-</div>
-<!--   <div class="row" style="margin-top: 25px;">
+  </div>
+
+
+
+
+
+  <div class="row">
+
 
     <div class="col-lg-12">
+      <!-- <h1>Attempt A Translation</h1> -->
 
-      <form action="/passages/<?= passage.id ?>/comments" method="POST">
+
+
+
+      <!-- <h1>Attempt A Translation</h1> -->
+      <form role="form" action="/passages/<?= passage.id ?>/attempts" method="POST">
         <div class="form-group">
-          <label>Add Comment</label>
-          <textarea class="form-control" rows="3" name="text"></textarea>
+          <label>Attempt Translation</label>
+          <textarea class="form-control" rows="3" name="translation"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-primary">Attempt</button>
       </form>
 
-    </div>
 
-    
-  </div> -->
-  <!-- /.row -->  
+
+    </div>
+  </div>
+
 
 </div>
 <!-- /.container -->
 
+</div>
+<div class="col-md-2">
+</div>
+</div>
 </div>
 <!-- /#wrapper -->
 <? include ../partials/footer ?>
@@ -221,23 +213,23 @@
   function triggerCommentInterval(type, id){
     setInterval(function(){
       console.log("in setInterval")
-     var query = "/"+type+"s/"+id+"/comments?"
-     var commentIds = "";
-     $("#passage-comments .passage").each(function(){
-      commentIds += "&ids="+ $(this).attr('data-id');
-    });
-     $.get(query + commentIds, function(data, status){
-      if(data){
-        $( "#"+type+"-comments" ).append(data);
-        $('#passage-comments .passage').sort(function (a, b) {
-          var contentA = Date.parse( $(a).attr('data-date'));
-          var contentB = Date.parse( $(b).attr('data-date'));
-          return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
-        }).appendTo("#passage-comments")
-      }
+      var query = "/"+type+"s/"+id+"/comments?"
+      var commentIds = "";
+      $("#passage-comments .passage").each(function(){
+        commentIds += "&ids="+ $(this).attr('data-id');
+      });
+      $.get(query + commentIds, function(data, status){
+        if(data){
+          $( "#"+type+"-comments" ).append(data);
+          $('#passage-comments .passage').sort(function (a, b) {
+            var contentA = Date.parse( $(a).attr('data-date'));
+            var contentB = Date.parse( $(b).attr('data-date'));
+            return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+          }).appendTo("#passage-comments")
+        }
 
-    });
-   }, 30000);
+      });
+    }, 30000);
 
   }
 
