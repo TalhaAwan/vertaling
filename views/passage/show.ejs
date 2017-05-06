@@ -63,7 +63,7 @@
              <br>
 
 
-             <div id="passage-comments">
+             <div id="passage-comments<?=passage._id?>">
 
                <? include ./component/passage/comment  ?>
              </div>
@@ -71,7 +71,7 @@
 
              <a id="write-a-comment<?= passage.id ?>" href="javascript:" style="font-size: 0.875em" onclick="$('#passage-comment').removeClass('hidden'); $(this).hide('slow')">write a comment</a> &nbsp; &nbsp; &nbsp; <a href="javascript:" id="load-more-<?= passage.id ?>" style="font-size: 0.875em" onclick="loadMoreComments('passage', '<?=passage._id?>')">load more </a>
 
-             <form id="passage-comment" name="passage-comment" class="hidden">
+             <form id="passage-comment<?=passage._id?>" name="passage-comment" class="hidden">
               <div class="form-group">
                 <!-- <label>Add Comment</label> -->
                 <textarea class="form-control" rows="3" name="text"></textarea>
@@ -119,19 +119,22 @@
 
             <div class="col-lg-10">
 
-             <div id="attempt-comments">
+             <div id="attempt-comments<?=attempt._id?>">
 
                <? include ./component/attempt/comment  ?>
              </div>
 
              <a href="javascript:" style="font-size: 0.875em" onclick="$('#attempt-comment<?=attempt._id?>').removeClass('hidden'); $(this).hide('slow')">write a comment</a>  &nbsp; &nbsp; &nbsp; <a id="load-more-<?= attempt.id ?>" href="javascript:" style="font-size: 0.875em" onclick="loadMoreComments('attempt', '<?=attempt._id?>')">load more </a>
 
-             <form id="attempt-comment<?=attempt._id?>" class="hidden" action="/attempts/<?= attempt.id ?>/comments" method="POST">
+             <form id="attempt-comment<?=attempt._id?>" class="hidden">
               <div class="form-group">
                 <textarea class="form-control" rows="3" name="text"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary">Comment</button>
+              <button  type="button" class="btn btn-primary" onclick="addComment('attempt', '<?=attempt._id?>')">Comment</button>
             </form>
+
+
+
           </div>
 
 
@@ -186,23 +189,25 @@
 <script>
 
   function loadMoreComments(type, id) { 
+    console.log(type, id)
     var query = "/"+type+"s/"+id+"/comments?"
     var commentIds = "";
-    $("#passage-comments .passage").each(function(){
+    $("#"+type+"-comments"+id+" ." +type).each(function(){
       commentIds += "&ids="+ $(this).attr('data-id');
     });
+    console.log(commentIds)
     $.get(query + commentIds, function(data, status){
       if(!data){
         $( "#load-more-"+id ).hide();
         triggerCommentInterval(type, id);
       }
       else{
-        $( "#"+type+"-comments" ).append(data);
-        $('#passage-comments .passage').sort(function (a, b) {
+        $( "#"+type+"-comments" + id).append(data);
+        $("#"+type+"-comments"+id+" ." +type).sort(function (a, b) {
           var contentA = Date.parse( $(a).attr('data-date'));
           var contentB = Date.parse( $(b).attr('data-date'));
           return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
-        }).appendTo("#passage-comments")
+        }).appendTo("#"+type+"-comments"+ id)
       }
 
     });
@@ -215,17 +220,17 @@
       console.log("in setInterval")
       var query = "/"+type+"s/"+id+"/comments?"
       var commentIds = "";
-      $("#passage-comments .passage").each(function(){
+      $("#"+type+"-comments"+id+" ." +type).each(function(){
         commentIds += "&ids="+ $(this).attr('data-id');
       });
       $.get(query + commentIds, function(data, status){
         if(data){
-          $( "#"+type+"-comments" ).append(data);
-          $('#passage-comments .passage').sort(function (a, b) {
+          $( "#"+type+"-comments" + id ).append(data);
+          $("#"+type+"-comments"+id+" ." +type).sort(function (a, b) {
             var contentA = Date.parse( $(a).attr('data-date'));
             var contentB = Date.parse( $(b).attr('data-date'));
             return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
-          }).appendTo("#passage-comments")
+          }).appendTo("#"+type+"-comments"+id)
         }
 
       });
@@ -247,14 +252,14 @@
 
   function addComment (type, id){
     var data = {};
-    $("#passage-comment").serializeArray().map(function(x){data[x.name] = x.value;}); 
+    $("#"+type+"-comment"+ id).serializeArray().map(function(x){data[x.name] = x.value;}); 
     $.ajax({
      url: "/"+type+"s/"+ id +"/comments",
      data: data,
      type: 'POST',
      success: function(data) {
-      $( "#"+type+"-comments" ).append( data );
-      $("#passage-comment textarea[name=text]").val('');
+      $( "#"+type+"-comments" + id ).append( data );
+      $("#"+type+"-comment"+ id + " textarea[name=text]").val('');
     },
 
     error: function(error){

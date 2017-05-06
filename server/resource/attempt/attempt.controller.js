@@ -50,7 +50,7 @@ const Controller = {};
 
 
 Controller.comments = function (req, res) {
-    Comment.find({attempt: req.params.id}, function(err, comments){
+    Comment.find({attempt: req.params.id, _id: { $nin: req.query.ids }}, function(err, comments){
         if(err){
             res.status(500).json(err);
         }
@@ -69,8 +69,9 @@ Controller.comments = function (req, res) {
     })
     .populate("user")
     .limit(10)
-    .skip(parseInt(req.query.skip))
-    .sort({ 'createdAt': -1 })
+    .sort({ 'createdAt': 1 })
+
+
 
 }
 
