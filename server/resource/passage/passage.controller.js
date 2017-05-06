@@ -104,7 +104,9 @@ Controller.update = function (req, res) {
                             callback(null, attempts);
 
                         }
-                    }).populate('user')
+                    })
+                    .sort({"createdAt": 1})
+                    .populate('user')
                     .populate({path : 'comments',  options: { limit: 2,  sort: { 'createdAt': 1 }}, populate: {path: 'user'}})
                 }
                 // comments: function(callback){
@@ -141,7 +143,7 @@ Controller.update = function (req, res) {
 
 Controller.comments = function (req, res) {
     console.log(req.query)
-    Comment.find({passage: req.params.id, _id: { $nin: req.query.ids }}, function(err, comments){
+    Comment.find({passage: req.params.id, _id: { $gt: req.query.commentId }}, function(err, comments){
         if(err){
             res.status(500).json(err);
         }

@@ -144,34 +144,34 @@
       </div>
     </div>
   </div>
+</div>
+
+
+
+
+
+<div class="row">
+
+
+  <div class="col-lg-12">
+    <!-- <h1>Attempt A Translation</h1> -->
+
+
+
+
+    <!-- <h1>Attempt A Translation</h1> -->
+    <form role="form" action="/passages/<?= passage.id ?>/attempts" method="POST">
+      <div class="form-group">
+        <label>Attempt Translation</label>
+        <textarea class="form-control" rows="3" name="translation"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Attempt</button>
+    </form>
+
+
+
   </div>
-
-
-
-
-
-  <div class="row">
-
-
-    <div class="col-lg-12">
-      <!-- <h1>Attempt A Translation</h1> -->
-
-
-
-
-      <!-- <h1>Attempt A Translation</h1> -->
-      <form role="form" action="/passages/<?= passage.id ?>/attempts" method="POST">
-        <div class="form-group">
-          <label>Attempt Translation</label>
-          <textarea class="form-control" rows="3" name="translation"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Attempt</button>
-      </form>
-
-
-
-    </div>
-  </div>
+</div>
 
 
 </div>
@@ -190,13 +190,11 @@
 
   function loadMoreComments(type, id) { 
     console.log(type, id)
-    var query = "/"+type+"s/"+id+"/comments?"
-    var commentIds = "";
-    $("#"+type+"-comments"+id+" ." +type).each(function(){
-      commentIds += "&ids="+ $(this).attr('data-id');
-    });
-    console.log(commentIds)
-    $.get(query + commentIds, function(data, status){
+    var query = "/"+type+"s/"+id+"/comments?";
+    var commentId = $("#"+type+"-comments"+id+" ." +type).last().attr('data-id');
+    commentId = "commentId=" + commentId;
+    console.log(commentId);
+    $.get(query + commentId, function(data, status){
       if(!data){
         $( "#load-more-"+id ).hide();
         triggerCommentInterval(type, id);
@@ -219,11 +217,10 @@
     setInterval(function(){
       console.log("in setInterval")
       var query = "/"+type+"s/"+id+"/comments?"
-      var commentIds = "";
-      $("#"+type+"-comments"+id+" ." +type).each(function(){
-        commentIds += "&ids="+ $(this).attr('data-id');
-      });
-      $.get(query + commentIds, function(data, status){
+      var commentId = $("#"+type+"-comments"+id+" ." +type).last().attr('data-id');
+      commentId = "commentId=" + commentId;
+      console.log(commentId);
+      $.get(query + commentId, function(data, status){
         if(data){
           $( "#"+type+"-comments" + id ).append(data);
           $("#"+type+"-comments"+id+" ." +type).sort(function (a, b) {

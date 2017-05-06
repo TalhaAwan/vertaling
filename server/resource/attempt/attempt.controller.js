@@ -50,7 +50,7 @@ const Controller = {};
 
 
 Controller.comments = function (req, res) {
-    Comment.find({attempt: req.params.id, _id: { $nin: req.query.ids }}, function(err, comments){
+    Comment.find({attempt: req.params.id, _id: { $gt: req.query.commentId }}, function(err, comments){
         if(err){
             res.status(500).json(err);
         }
